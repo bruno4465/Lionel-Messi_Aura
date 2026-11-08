@@ -3,154 +3,168 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lionel Messi: camisa 10</title>
+<title>Lionel Messi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#F3F7FB;--ink:#0A1A2F;--mute:#4B6079;--acc:#74ACDF;--deep:#0A1A2F;--deep-ink:#EAF3FC;
-  --card:#E1EBF5;--gold:#E2B84A;--line:rgba(10,26,47,.18);
-  --display:"Anton",Impact,"Arial Narrow",sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#07101C;--ink:#EAF3FC;--mute:#9DB2C9;--deep:#0C2542;--card:#0F2036;--line:rgba(234,243,252,.2);color-scheme:dark}
-}
-:root[data-theme="dark"]{--bg:#07101C;--ink:#EAF3FC;--mute:#9DB2C9;--deep:#0C2542;--card:#0F2036;--line:rgba(234,243,252,.2);color-scheme:dark}
+@property --r{syntax:"<length>";inherits:true;initial-value:1px}
+:root{--bg:#EEF2F6;--ink:#0B1626;--mute:#53647A;--acc:#74ACDF;--gold:#C7A04A;--deep:#0B1B30;--deep-ink:#EEF4FA;--line:rgba(11,22,38,.16);
+--display:"Anton",Impact,"Arial Narrow",sans-serif;--body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08121F;--ink:#EEF4FA;--mute:#9BB0C6;--deep:#0D2542;--line:rgba(238,244,250,.18);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#08121F;--ink:#EEF4FA;--mute:#9BB0C6;--deep:#0D2542;--line:rgba(238,244,250,.18);color-scheme:dark}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--body);overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+a{color:inherit}:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .wrap{padding-inline:clamp(20px,5vw,72px)}
-
-/* header */
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px clamp(20px,5vw,72px);background:var(--bg);border-bottom:1px solid var(--line)}
-.logo{font:400 26px/1 var(--display);letter-spacing:.04em;text-decoration:none;text-transform:uppercase}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px clamp(20px,5vw,72px);background:var(--bg);border-bottom:1px solid var(--line)}
+.logo{font:400 26px/1 var(--display);letter-spacing:.05em;text-decoration:none;text-transform:uppercase}
 nav{display:flex;gap:clamp(12px,3vw,32px)}
-nav a{text-decoration:none;font-weight:500;font-size:14px;text-transform:lowercase}
-nav a:hover{text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:6px;text-decoration-thickness:3px}
+nav a,.up{text-decoration:none;font-weight:500;font-size:14px;text-transform:lowercase;background:linear-gradient(var(--acc),var(--acc)) 0 100%/0 3px no-repeat;transition:background-size .3s;padding-bottom:3px}
+nav a:hover,.up:hover{background-size:100% 3px}
 @media(max-width:560px){nav a:nth-child(n+3){display:none}}
-
-/* the pitch line: a ball that travels as you scroll */
+.theme{font:500 13px var(--body);text-transform:lowercase;background:transparent;color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.theme:hover{background:var(--acc);border-color:var(--acc);color:#0B1626}
+.cursor{position:fixed;left:0;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--acc);pointer-events:none;z-index:40;opacity:0;transition:width .25s,height .25s,margin .25s,opacity .25s}
+.cursor.on{opacity:.9}.cursor.big{width:60px;height:60px;margin:-30px 0 0 -30px;opacity:.4}
+@media(hover:none){.cursor{display:none}}
 .pitch{position:fixed;left:12px;top:22vh;height:56vh;width:2px;background:var(--line);z-index:15}
 .ball{position:absolute;left:-7px;top:0;width:16px;height:16px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 3px var(--bg)}
 @media(max-width:700px){.pitch{display:none}}
 
 /* hero */
-.hero{position:relative;min-height:calc(100svh - 64px);background:var(--deep);color:var(--deep-ink);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;padding-block:40px 28px}
-.hero .blob{position:absolute;right:-8vw;top:-6vw;width:46vw;min-width:260px;aspect-ratio:1;background:var(--acc);border-radius:58% 42% 61% 39%/46% 57% 43% 54%;filter:blur(2px);opacity:.95}
-.hero .ten{position:absolute;right:4vw;top:6vh;font:400 clamp(160px,34vw,520px)/.8 var(--display);color:transparent;-webkit-text-stroke:2px var(--deep-ink);opacity:.85}
-.hero h1{position:relative;margin:0;font:400 clamp(72px,19vw,270px)/.84 var(--display);text-transform:uppercase;letter-spacing:-.005em}
-.hero h1 span{display:block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
-.hero h1 span:nth-child(2){animation-delay:.12s}
-@keyframes rise{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
-.hero .meta{position:relative;display:flex;justify-content:space-between;gap:16px;margin-top:28px;font-size:14px;font-weight:500;text-transform:lowercase;border-top:1px solid rgba(234,243,252,.35);padding-top:14px}
+.hero{--ar:clamp(20px,12vw,200px);position:relative;min-height:calc(100svh - 62px);background:var(--deep);color:var(--deep-ink);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 clamp(20px,5vw,72px) 26px}
+.sun{position:absolute;top:3%;height:74%;aspect-ratio:1;right:calc(var(--ar) - 7.5svh);border-radius:50%;background:var(--acc);transform:translate(calc(var(--mx,0)*34px),calc(var(--my,0)*34px));transition:transform .5s ease-out}
+.arch{position:absolute;top:7%;height:76%;aspect-ratio:3/4;right:var(--ar);border-radius:999px 999px 0 0;overflow:hidden;cursor:crosshair;--r:1px;--px:50%;--py:40%;
+transition:--r .5s cubic-bezier(.2,.8,.2,1),transform .35s ease-out;transform:perspective(900px) rotateY(calc(var(--mx,0)*7deg)) rotateX(calc(var(--my,0)*-5deg));box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.arch .b{-webkit-mask-image:radial-gradient(circle var(--r) at var(--px) var(--py),#000 97%,transparent);mask-image:radial-gradient(circle var(--r) at var(--px) var(--py),#000 97%,transparent)}
+.arch::after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,var(--deep));pointer-events:none}
+.arch:hover{--r:160px}.arch.alt{--r:150vmax}
+.hero h1{position:relative;z-index:3;margin:0;font:400 clamp(76px,21vw,320px)/.82 var(--display);text-transform:uppercase;pointer-events:none}
+.hero h1 span{display:block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 span:nth-child(2){animation-delay:.14s}
+.hero h1 .o{color:transparent;-webkit-text-stroke:2px var(--deep-ink)}
+@keyframes rise{from{transform:translateY(55%);opacity:0}to{transform:none;opacity:1}}
+.meta{position:relative;z-index:3;display:flex;justify-content:space-between;gap:16px;margin-top:22px;padding-top:14px;border-top:1px solid var(--gold);font-size:14px;text-transform:lowercase}
+.meta span:nth-child(2){opacity:.75}
+@media(max-width:700px){.arch{height:60%}.sun{height:66%}.meta span:nth-child(2){display:none}}
 
-.hero-photo{position:absolute;right:6vw;top:24px;height:56%;aspect-ratio:3/4;object-fit:cover;border-radius:58% 42% 61% 39%/46% 57% 43% 54%;box-shadow:0 0 0 6px var(--deep)}
-.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.shot::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(10,26,47,.88));z-index:1}
-.shot em{z-index:2;color:#fff}
-.credits{position:relative;margin:20px 0 0;padding:0;list-style:none;font-size:12px;opacity:.85;display:grid;gap:4px}
-.theme{font:500 13px var(--body);text-transform:lowercase;background:transparent;color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
-.theme:hover{background:var(--acc);border-color:var(--acc);color:#0A1A2F}
-.cursor{position:fixed;left:0;top:0;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--acc);pointer-events:none;z-index:40;opacity:0;transition:width .2s,height .2s,margin .2s,opacity .2s}
-.cursor.on{opacity:.9}.cursor.big{width:56px;height:56px;margin:-28px 0 0 -28px;opacity:.45}
-@media(hover:none){.cursor{display:none}}
-.hero .blob{transform:translate(calc(var(--mx,0)*28px),calc(var(--my,0)*28px));transition:transform .3s ease-out}
-.hero .ten{transform:translate(calc(var(--mx,0)*-18px),calc(var(--my,0)*-18px));transition:transform .3s ease-out}
-.hero-photo{transform:translate(calc(var(--mx,0)*10px),calc(var(--my,0)*10px));transition:transform .3s ease-out}
-.row{cursor:grab}.row.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
-.shot img{pointer-events:none;transition:transform .35s ease}
-.moment:hover .shot img{transform:scale(1.06)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;padding-block:clamp(48px,8vw,100px)}
-.stat{border-top:1px solid var(--line);padding-top:14px}
-.stat b{display:block;font:400 clamp(64px,11vw,150px)/.9 var(--display)}
-.stat span{color:var(--mute);font-size:14px;text-transform:lowercase}
 /* statement */
-.statement{padding-block:clamp(72px,14vw,180px)}
-.statement p{margin:0;max-width:20ch;font:400 clamp(34px,7.4vw,104px)/1.02 var(--display);text-transform:uppercase;color:var(--mute)}
-.statement p b{font-weight:400;color:var(--ink);background:linear-gradient(transparent 62%,var(--acc) 62%)}
+.statement{padding-block:clamp(80px,14vw,200px)}
+.statement p{margin:0;max-width:22ch;font:500 clamp(34px,6.6vw,92px)/1.04 var(--body);letter-spacing:-.035em;color:var(--mute)}
+.statement b{font-weight:700;color:var(--ink);background:linear-gradient(var(--acc),var(--acc)) 0 100%/100% 3px no-repeat;transition:background-size .45s cubic-bezier(.2,.8,.2,1),color .3s;cursor:default}
+.statement b:hover{background-size:100% 100%;color:#0B1626}
 .cap{display:block;margin-top:28px;font-size:14px;color:var(--mute);text-transform:lowercase}
 
-/* moments gallery */
-.moments h2,.hof h2{margin:0 0 6px;font:400 clamp(40px,8vw,110px)/.9 var(--display);text-transform:uppercase}
-.moments p.lead,.hof p.lead{margin:0 0 28px;max-width:46ch;color:var(--mute)}
-.row{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 clamp(20px,5vw,72px) 18px;-webkit-overflow-scrolling:touch}
-.moment{flex:0 0 min(78vw,300px);scroll-snap-align:start}
-.shot{position:relative;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:var(--deep);color:var(--deep-ink);display:flex;align-items:flex-end;padding:18px}
-.shot i{position:absolute;background:var(--acc);border-radius:55% 45% 60% 40%/50% 60% 40% 50%}
-.shot em{position:relative;font:400 76px/.9 var(--display);font-style:normal}
-.moment:nth-child(odd) .shot i{width:70%;aspect-ratio:1;right:-12%;top:-8%}
-.moment:nth-child(even) .shot i{width:55%;aspect-ratio:1;left:-10%;top:12%;border-radius:40% 60% 45% 55%/60% 40% 60% 40%;background:var(--gold)}
-.moment h3{margin:14px 0 0;font:400 22px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
-.moment small{display:block;color:var(--mute);font-size:14px;margin-top:2px;text-transform:lowercase}
+/* section heads */
+.sec-h{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;border-top:1px solid var(--gold);padding-top:18px;margin-bottom:28px}
+.sec-h h2{margin:0;font:400 clamp(44px,8vw,120px)/.9 var(--display);text-transform:uppercase}
+.sec-h p{margin:0;max-width:30ch;color:var(--mute);font-size:15px}
+@media(max-width:700px){.sec-h{flex-direction:column;align-items:flex-start}}
 
-/* on / off track */
-.tracks{padding-block:clamp(72px,12vw,160px);display:grid;gap:clamp(40px,8vw,96px)}
-.track{display:grid;gap:14px;border-top:1px solid var(--line);padding-top:22px}
-.track a{text-decoration:none}
-.track h2{margin:0;font:400 clamp(72px,17vw,240px)/.82 var(--display);text-transform:uppercase;transition:color .25s}
-.track a:hover h2,.track a:focus-visible h2{color:var(--acc)}
-.track p{margin:0;max-width:40ch;color:var(--mute)}
-.track p b{color:var(--ink);font-weight:800}
+/* gallery */
+.row{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 clamp(20px,5vw,72px) 18px;cursor:grab}
+.row.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.moment{flex:0 0 min(72vw,290px);scroll-snap-align:start;background:none;border:0;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.shot{position:relative;display:flex;align-items:flex-end;justify-content:center;aspect-ratio:3/4.2;border-radius:999px 999px 14px 14px;overflow:hidden;background:var(--deep);color:#fff;padding-bottom:22px}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.shot::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(11,27,48,.9))}
+.shot em{position:relative;z-index:2;font:400 64px/.9 var(--display);font-style:normal;transition:transform .4s}
+.shot .see{position:absolute;z-index:2;top:46%;padding:8px 16px;border-radius:999px;background:var(--acc);color:#0B1626;font-size:13px;font-weight:500;opacity:0;transform:scale(.8);transition:opacity .3s,transform .3s}
+.moment:hover img,.moment:focus-visible img{transform:scale(1.08)}
+.moment:hover .see,.moment:focus-visible .see{opacity:1;transform:none}
+.moment:hover em{transform:translateY(-6px)}
+.moment .t{display:block;margin-top:14px;font:400 22px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.moment small{display:block;color:var(--mute);font-size:14px;text-transform:lowercase}
+dialog{border:0;padding:0;background:transparent;color:#fff;width:min(92vw,560px);overflow:visible}
+dialog::backdrop{background:rgba(6,14,26,.88);backdrop-filter:blur(6px)}
+dialog img{display:block;max-width:100%;max-height:74vh;margin:0 auto;border-radius:999px 999px 14px 14px}
+dialog p{text-align:center;margin:14px 0 0;font-size:15px}
+dialog .x{display:block;margin:0 auto 16px;background:var(--acc);color:#0B1626;border:0;border-radius:999px;padding:8px 18px;font:500 13px var(--body);cursor:pointer}
 
-/* hall of fame: card flips on hover/focus, like the helmets */
-.hof{padding-block:clamp(40px,8vw,100px)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding-inline:clamp(20px,5vw,72px)}
-.coin{position:relative;aspect-ratio:1;border-radius:50%;background:var(--card);display:grid;place-items:center;cursor:default;overflow:hidden;transition:background .25s,color .25s}
-.coin .y,.coin .n{grid-area:1/1;font:400 clamp(38px,5vw,56px)/1 var(--display);transition:opacity .25s,transform .25s}
-.coin .n{opacity:0;transform:scale(.7);color:var(--deep)}
-.coin:hover,.coin:focus-visible{background:var(--gold)}
-.coin:hover .y,.coin:focus-visible .y{opacity:0;transform:scale(1.3)}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;padding-block:clamp(64px,10vw,130px)}
+.stat{border-top:1px solid var(--line);padding-top:14px;transition:border-color .3s}
+.stat b{display:block;font:400 clamp(64px,11vw,150px)/.9 var(--display);transition:color .3s}
+.stat span{color:var(--mute);font-size:14px;text-transform:lowercase}
+.stat:hover{border-color:var(--gold)}.stat:hover b{color:var(--acc)}
+
+/* tracks (accordion) */
+.tracks{padding-bottom:clamp(60px,10vw,120px)}
+.track{border-top:1px solid var(--line)}
+.track summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:18px}
+.track summary::-webkit-details-marker{display:none}
+.track h2{margin:0;font:400 clamp(64px,15vw,220px)/.84 var(--display);text-transform:uppercase;transition:color .3s}
+.track summary:hover h2{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.track summary i{flex:none;width:56px;height:56px;border:1.5px solid var(--ink);border-radius:50%;position:relative;transition:transform .4s,background .3s}
+.track summary i::before,.track summary i::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:2px;background:var(--ink);transform:translate(-50%,-50%);transition:background .3s}
+.track summary i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.track summary:hover i{background:var(--acc);border-color:var(--acc)}
+.track[open] summary i{transform:rotate(135deg)}
+.track p{margin:0 0 28px;max-width:44ch;color:var(--mute)}
+.track p b{color:var(--ink);font-weight:700}
+
+/* coins */
+.hof{padding-bottom:clamp(40px,8vw,100px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.coin{position:relative;aspect-ratio:1;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;overflow:hidden;transition:background .3s,transform .3s}
+.coin span{grid-area:1/1;font:400 clamp(38px,5vw,56px)/1 var(--display);transition:opacity .3s,transform .3s}
+.coin .n{opacity:0;transform:scale(.6);color:#0B1626}
+.coin:hover,.coin:focus-visible{background:var(--gold);transform:translateY(-6px)}
+.coin:hover .y,.coin:focus-visible .y{opacity:0;transform:scale(1.4)}
 .coin:hover .n,.coin:focus-visible .n{opacity:1;transform:none}
 
-footer{margin-top:clamp(60px,10vw,140px);background:var(--deep);color:var(--deep-ink);padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));position:relative;overflow:hidden}
-footer .blob2{position:absolute;left:-10vw;bottom:-14vw;width:40vw;min-width:220px;aspect-ratio:1;background:var(--acc);border-radius:48% 52% 40% 60%/55% 45% 55% 45%;opacity:.9}
-footer h2{position:relative;margin:0 0 24px;font:400 clamp(44px,10vw,150px)/.9 var(--display);text-transform:uppercase;max-width:12ch}
-footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
+footer{background:var(--deep);color:var(--deep-ink);padding-block:64px calc(32px + env(safe-area-inset-bottom,0px));position:relative;overflow:hidden}
+footer .disc{position:absolute;left:-12vw;bottom:-16vw;width:42vw;min-width:240px;aspect-ratio:1;border-radius:50%;background:var(--acc);opacity:.9;transition:transform .6s}
+footer:hover .disc{transform:scale(1.12)}
+footer h2{position:relative;margin:0 0 28px;font:400 clamp(44px,10vw,150px)/.9 var(--display);text-transform:uppercase;max-width:12ch}
+footer .up{position:relative;display:inline-block;margin-bottom:28px}
+.credits{position:relative;margin:0;padding:0;list-style:none;font-size:12px;opacity:.85;display:grid;gap:4px;max-width:70ch}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero h1 span{animation:none}*{transition:none!important}}
 </style>
 </head>
 <body>
 <header>
   <a class="logo" href="#inicio">Messi</a>
-  <nav aria-label="Principal">
-    <a href="#inicio">início</a><a href="#momentos">momentos</a><a href="#em-campo">em campo</a><a href="#bolas">bolas de ouro</a>
-  </nav>
+  <nav aria-label="Principal"><a href="#inicio">início</a><a href="#momentos">momentos</a><a href="#em-campo">em campo</a><a href="#bolas">bolas de ouro</a></nav>
   <button class="theme" id="theme" type="button" aria-label="Alternar modo escuro">escuro</button>
 </header>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="pitch" aria-hidden="true"><div class="ball" id="ball"></div></div>
 
 <main>
-<section class="hero wrap" id="inicio">
-  <div class="blob" aria-hidden="true"></div>
-  <div class="ten" aria-hidden="true">10</div>
-  <img class="hero-photo" src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg?width=1200" alt="Lionel Messi com a camisa do Inter Miami, em 2025" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
-  <h1><span>Lionel</span><span>Messi</span></h1>
-  <div class="meta"><span>inter miami desde 2023</span><span>campeão do mundo, 2022</span></div>
+<section class="hero" id="inicio">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="arch" id="arch" role="button" tabindex="0" aria-pressed="false" aria-label="Trocar a foto de Lionel Messi">
+    <img class="a" src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg?width=1200" alt="Lionel Messi com a camisa do Inter Miami, em 2025" referrerpolicy="no-referrer" onerror="this.remove()">
+    <img class="b" src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg?width=1000" alt="Lionel Messi com a camisa da Argentina na Copa de 2022" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <h1><span class="o">Lionel</span><span>Messi</span></h1>
+  <div class="meta"><span id="cap">inter miami, 2025</span><span>passe o mouse ou toque na foto</span><span>campeão do mundo, 2022</span></div>
 </section>
 
-<section class="statement wrap" id="mensagem">
+<section class="statement wrap">
   <p>Cada <b>drible</b> é uma pergunta. Cada <b>gol</b>, uma resposta. Mais de duas décadas <b>redefinindo</b> o que cabe num pé esquerdo.</p>
   <span class="cap">o jogo, de Rosário ao mundo</span>
 </section>
 
-<section class="moments" id="momentos">
-  <div class="wrap"><h2>Momentos</h2><p class="lead">Lugares e datas que marcaram a carreira. Deslize para o lado.</p></div>
-  <div class="row" tabindex="0" aria-label="Galeria de momentos">
-    <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Leo_messi_barce_2005.jpg?width=700" alt="Lionel Messi jogando pelo Barcelona em 2005" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2005</em></div><h3>Começo no Barça</h3><small>barcelona, 2005</small></article>
-    <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel_Messi_Player_of_the_Year_2011.jpg?width=700" alt="Lionel Messi, jogador do ano em 2011" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2011</em></div><h3>Jogador do ano</h3><small>2011</small></article>
-    <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Messi_in_Germany_and_Argentina_face_off_in_the_final_of_the_World_Cup_2014_-2014-07-13_%2824%29.jpg?width=700" alt="Lionel Messi na final da Copa do Mundo de 2014" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2014</em></div><h3>Final da Copa</h3><small>rio de janeiro, 2014</small></article>
-    <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Moment_of_the_Champions_League_final_FC_Barcelona_-_Juventus_2015.jpg?width=700" alt="Lionel Messi na final da Champions League de 2015" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2015</em></div><h3>Champions League</h3><small>berlim, 2015</small></article>
-    <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg?width=700" alt="Lionel Messi pela Argentina na Copa do Mundo de 2022" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2022</em></div><h3>Campeão do mundo</h3><small>copa do mundo, 2022</small></article>
+<section id="momentos">
+  <div class="wrap"><div class="sec-h"><h2>Momentos</h2><p>Clique em uma foto para ampliar. No desktop, arraste a fila.</p></div></div>
+  <div class="row" aria-label="Galeria de momentos">
+    <button class="moment" type="button" data-cap="Barcelona, 2005"><span class="shot"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Leo_messi_barce_2005.jpg?width=700" alt="Lionel Messi jogando pelo Barcelona em 2005" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="see">ampliar</span><em>2005</em></span><span class="t">Começo no Barça</span><small>barcelona</small></button>
+    <button class="moment" type="button" data-cap="Jogador do ano, 2011"><span class="shot"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel_Messi_Player_of_the_Year_2011.jpg?width=700" alt="Lionel Messi, jogador do ano em 2011" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="see">ampliar</span><em>2011</em></span><span class="t">Jogador do ano</span><small>2011</small></button>
+    <button class="moment" type="button" data-cap="Final da Copa, Rio de Janeiro, 2014"><span class="shot"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Messi_in_Germany_and_Argentina_face_off_in_the_final_of_the_World_Cup_2014_-2014-07-13_%2824%29.jpg?width=700" alt="Lionel Messi na final da Copa do Mundo de 2014" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="see">ampliar</span><em>2014</em></span><span class="t">Final da Copa</span><small>rio de janeiro</small></button>
+    <button class="moment" type="button" data-cap="Champions League, Berlim, 2015"><span class="shot"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Moment_of_the_Champions_League_final_FC_Barcelona_-_Juventus_2015.jpg?width=700" alt="Lionel Messi na final da Champions League de 2015" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="see">ampliar</span><em>2015</em></span><span class="t">Champions League</span><small>berlim</small></button>
+    <button class="moment" type="button" data-cap="Campeão do mundo, 2022"><span class="shot"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg?width=700" alt="Lionel Messi pela Argentina na Copa de 2022" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="see">ampliar</span><em>2022</em></span><span class="t">Campeão do mundo</span><small>copa do mundo</small></button>
   </div>
 </section>
+<dialog id="lb"><button class="x" type="button">fechar</button><img alt=""><p></p></dialog>
 
-<section class="stats wrap" id="numeros" aria-label="Em números">
+<section class="stats wrap" aria-label="Em números">
   <div class="stat"><b>8</b><span>bolas de ouro</span></div>
   <div class="stat"><b>1</b><span>copa do mundo</span></div>
   <div class="stat"><b>2</b><span>copas américa</span></div>
@@ -158,18 +172,12 @@ footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
 </section>
 
 <section class="tracks wrap" id="em-campo">
-  <div class="track">
-    <a href="#bolas"><h2>Em<br>campo</h2></a>
-    <p>Barcelona, PSG, Inter Miami e a seleção argentina. <b>Títulos</b>, <b>recordes</b> e a Copa que faltava.</p>
-  </div>
-  <div class="track" id="fora-de-campo">
-    <a href="#inicio"><h2>Fora<br>de campo</h2></a>
-    <p>Família, campanhas e a <b>Fundação Leo Messi</b>, criada em 2007 para apoiar saúde e educação de crianças.</p>
-  </div>
+  <details class="track"><summary><h2>Em campo</h2><i aria-hidden="true"></i></summary><p>Barcelona, PSG, Inter Miami e a seleção argentina. <b>Títulos</b>, <b>recordes</b> e a Copa que faltava.</p></details>
+  <details class="track"><summary><h2>Fora de campo</h2><i aria-hidden="true"></i></summary><p>Família, campanhas e a <b>Fundação Leo Messi</b>, criada em 2007 para apoiar saúde e educação de crianças.</p></details>
 </section>
 
-<section class="hof" id="bolas">
-  <div class="wrap"><h2>Bolas de Ouro</h2><p class="lead">Oito prêmios. Passe o mouse ou foque em cada um para ver a ordem.</p></div>
+<section class="hof wrap" id="bolas">
+  <div class="sec-h"><h2>Bolas de Ouro</h2><p>Oito prêmios. Passe o mouse ou foque em cada um para ver a ordem.</p></div>
   <div class="grid">
     <div class="coin" tabindex="0"><span class="y">2009</span><span class="n">1ª</span></div>
     <div class="coin" tabindex="0"><span class="y">2010</span><span class="n">2ª</span></div>
@@ -184,10 +192,11 @@ footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
 </main>
 
 <footer class="wrap">
-  <div class="blob2" aria-hidden="true"></div>
+  <div class="disc" aria-hidden="true"></div>
   <h2>Sempre em movimento.</h2>
-  <p>Projeto de fã, não oficial, sem vínculo com Lionel Messi ou sua equipe. Estilo visual inspirado no site de Lando Norris; todo o conteúdo é original.</p>
-<ul class="credits">
+  <a class="up" href="#inicio">voltar ao topo</a>
+  <ul class="credits">
+    <li>Projeto de fã, não oficial, sem vínculo com Lionel Messi ou sua equipe. Estilo visual inspirado no site de Lando Norris; todo o conteúdo é original.</li>
     <li>Fotos via Wikimedia Commons. Autoria e licença de cada uma na página do arquivo.</li>
     <li>Inter Miami, 2025: Bryan Berlin, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg">arquivo</a></li>
     <li>Barcelona, 2005: Josep Tomàs, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Leo_messi_barce_2005.jpg">arquivo</a></li>
@@ -197,53 +206,60 @@ footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
 
 <script>
 (function(){
-  var ball=document.getElementById('ball');
-  function upd(){
-    var h=document.documentElement,max=h.scrollHeight-window.innerHeight;
-    var p=max>0?Math.min(1,Math.max(0,window.scrollY/max)):0;
-    ball.style.top=(p*(ball.parentNode.clientHeight-16))+'px';
-  }
-  window.addEventListener('scroll',upd,{passive:true});
-  window.addEventListener('resize',upd);
-  upd();
-})();
-</script>
-<script>
-(function(){
-  var root=document.documentElement,btn=document.getElementById('theme'),
-      rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var $=function(q,c){return(c||document).querySelector(q)},root=document.documentElement,
+  rm=matchMedia('(prefers-reduced-motion:reduce)').matches,fine=matchMedia('(hover:hover)').matches;
+  var tb=$('#theme');
   function dark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
-  function lab(){btn.textContent=dark()?'claro':'escuro'}
-  btn.addEventListener('click',function(){root.dataset.theme=dark()?'light':'dark';lab()});lab();
+  function lab(){tb.textContent=dark()?'claro':'escuro'}
+  tb.onclick=function(){root.dataset.theme=dark()?'light':'dark';lab()};lab();
+
+  var ball=$('#ball');
+  function pr(){var m=root.scrollHeight-innerHeight,p=m>0?Math.min(1,Math.max(0,scrollY/m)):0;ball.style.top=p*(ball.parentNode.clientHeight-16)+'px'}
+  addEventListener('scroll',pr,{passive:true});addEventListener('resize',pr);pr();
 
   var st=document.querySelectorAll('.stat b');
   if(!rm&&'IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){
       if(!e.isIntersecting)return;io.unobserve(e.target);
       var b=e.target,t=+b.dataset.t,s=performance.now();
-      (function f(now){var p=Math.min(1,(now-s)/1200);b.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s);
+      (function f(n){var p=Math.min(1,(n-s)/1200);b.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s);
     })},{threshold:.6});
     st.forEach(function(b){b.dataset.t=b.textContent;b.textContent='0';io.observe(b)});
   }
 
-  var cur=document.getElementById('cursor'),hero=document.getElementById('inicio');
-  if(matchMedia('(hover:hover)').matches&&!rm){
-    window.addEventListener('pointermove',function(e){
+  var hero=$('#inicio'),arch=$('#arch'),cap=$('#cap'),A='inter miami, 2025',B='argentina, 2022';
+  function alt(on){arch.classList.toggle('alt',on);arch.setAttribute('aria-pressed',on);cap.textContent=on?B:A}
+  arch.addEventListener('click',function(){alt(!arch.classList.contains('alt'))});
+  arch.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();arch.click()}});
+  if(fine){
+    arch.addEventListener('pointerenter',function(){cap.textContent=B});
+    arch.addEventListener('pointerleave',function(){cap.textContent=arch.classList.contains('alt')?B:A});
+    arch.addEventListener('pointermove',function(e){var r=arch.getBoundingClientRect();arch.style.setProperty('--px',(e.clientX-r.left)+'px');arch.style.setProperty('--py',(e.clientY-r.top)+'px')});
+  }
+  var cur=$('#cursor');
+  if(fine&&!rm){
+    addEventListener('pointermove',function(e){
       cur.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)';cur.classList.add('on');
-      cur.classList.toggle('big',!!(e.target.closest&&e.target.closest('a,button,.coin,.moment,.row')));
+      cur.classList.toggle('big',!!(e.target.closest&&e.target.closest('a,button,summary,.arch,.coin,.stat,.moment,.statement b')));
     });
     root.addEventListener('mouseleave',function(){cur.classList.remove('on')});
-    hero.addEventListener('pointermove',function(e){
-      var r=hero.getBoundingClientRect();
+    hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect();
       hero.style.setProperty('--mx',((e.clientX-r.left)/r.width-.5).toFixed(3));
-      hero.style.setProperty('--my',((e.clientY-r.top)/r.height-.5).toFixed(3));
-    });
+      hero.style.setProperty('--my',((e.clientY-r.top)/r.height-.5).toFixed(3))});
   }
 
-  var row=document.querySelector('.row'),down=false,sx=0,sl=0;
-  row.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;sx=e.clientX;sl=row.scrollLeft;row.classList.add('drag')});
-  window.addEventListener('pointermove',function(e){if(down)row.scrollLeft=sl-(e.clientX-sx)});
-  window.addEventListener('pointerup',function(){down=false;row.classList.remove('drag')});
+  var row=$('.row'),down=false,moved=false,sx=0,sl=0;
+  row.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=row.scrollLeft});
+  addEventListener('pointermove',function(e){if(!down)return;var d=e.clientX-sx;if(Math.abs(d)>5){moved=true;row.classList.add('drag')}if(moved)row.scrollLeft=sl-d});
+  addEventListener('pointerup',function(){down=false;row.classList.remove('drag')});
+  row.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+
+  var lb=$('#lb'),li=$('img',lb),lp=$('p',lb);
+  document.querySelectorAll('.moment').forEach(function(b){b.addEventListener('click',function(){
+    var im=$('img',b);if(!im)return;
+    li.src=im.src.replace('width=700','width=1400');li.alt=im.alt;lp.textContent=b.dataset.cap;lb.showModal()})});
+  $('.x',lb).onclick=function(){lb.close()};
+  lb.addEventListener('click',function(e){if(e.target===lb)lb.close()});
 })();
 </script>
 </body>
