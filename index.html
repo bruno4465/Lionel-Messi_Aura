@@ -40,21 +40,22 @@ html{scrollbar-color:#B88F3A var(--bg)}.row{scrollbar-width:thin;scrollbar-color
 .pt{position:fixed;inset:0;z-index:55;overflow:hidden;pointer-events:none;visibility:hidden}
 .pt.in,.pt.out{visibility:visible}.pt.in{pointer-events:auto}
 .pt .l{position:absolute;left:-10vw;right:-10vw;top:-20vh;height:140vh;border-radius:50%/18vh;transform:translateY(100%)}
-.pt .l1{background:var(--goldg)}.pt .l2{background:var(--acc)}.pt .l3{background:var(--deep)}
+.pt .l1{background:var(--goldg)}.pt .l2{background:var(--deep)}.pt .l3{background:var(--acc)}
 .pt.in .l{animation:lin .85s var(--ease) both}.pt.out .l{animation:lout .85s var(--ease) both}
 .pt.in .l2{animation-delay:.1s}.pt.in .l3{animation-delay:.2s}.pt.out .l3{animation-delay:0s}.pt.out .l2{animation-delay:.1s}.pt.out .l1{animation-delay:.2s}
 @keyframes lin{from{transform:translateY(100%)}to{transform:none}}
 @keyframes lout{from{transform:none}to{transform:translateY(-100%)}}
-.ptx{position:absolute;z-index:5;left:clamp(20px,5vw,72px);right:clamp(20px,5vw,72px);bottom:56px;color:var(--deep-ink);transition:opacity .3s}
+.ptx{position:absolute;z-index:5;left:clamp(20px,5vw,72px);right:clamp(20px,5vw,72px);bottom:96px;color:#0B1626;transition:opacity .3s}
 #ptl{display:block;overflow:hidden;padding-bottom:.06em;font:400 clamp(64px,16vw,240px)/.95 var(--display);text-transform:uppercase}
-#ptl .c{display:inline-block;transform:translateY(110%)}
-.pt.in #ptl .c{animation:cin .7s var(--ease) both;animation-delay:calc(.45s + var(--i)*.035s)}
-.pt.out #ptl .c{transform:none}
+.pt .c{display:inline-block;transform:translateY(110%)}
+.pt.in .c{animation:cin .7s var(--ease) both;animation-delay:calc(.45s + var(--i)*.035s)}
+.pt.in #pbl .c{animation-delay:calc(.7s + var(--i)*.03s)}
+.pt.out .c{transform:none}
 @keyframes cin{from{transform:translateY(110%)}to{transform:none}}
-.pn{position:absolute;z-index:5;top:calc(22px + env(safe-area-inset-top,0px));right:clamp(20px,5vw,72px);font:400 clamp(40px,6vw,88px)/1 var(--display);background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent;transition:opacity .3s}
-.pl{position:absolute;z-index:5;left:clamp(20px,5vw,72px);right:clamp(20px,5vw,72px);bottom:26px;height:1px;background:var(--goldh);transition:opacity .3s}
-.pl em{position:absolute;left:0;top:-7px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--acc)}
-.pt.out .ptx,.pt.out .pn,.pt.out .pl{opacity:0}
+.pbtn{position:absolute;z-index:6;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:14px;height:48px;padding:0 20px;border-radius:9px;background:#0B1626;color:var(--acc);font:700 14px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;transition:opacity .3s}
+#pbl{display:inline-block;overflow:hidden;vertical-align:bottom}
+.pbtn b{display:inline-block;min-width:3ch;font-weight:700;font-variant-numeric:tabular-nums}
+.pt.out .ptx,.pt.out .pbtn{opacity:0}
 .rv{position:absolute;inset:0;z-index:3;display:flex;align-items:flex-end;justify-content:center;padding:0 22px 26px;background:var(--acc);color:#0B1626;text-align:center;font:500 14px/1.35 var(--body);clip-path:ellipse(100% 0% at 50% 100%);transform:scale(1.08);transition:clip-path var(--dur) var(--ease),transform var(--dur) var(--ease)}
 .moment:hover .rv,.moment:focus-visible .rv{clip-path:ellipse(100% 62% at 50% 100%);transform:none}
 @media(hover:none){.rv{display:none}}
@@ -181,7 +182,7 @@ footer .up{position:relative;display:inline-block;margin-bottom:28px}
 </head>
 <body>
 <div class="curtain" aria-hidden="true"><span>10</span></div>
-<div class="pt" id="pt" aria-hidden="true"><i class="l l1"></i><i class="l l2"></i><i class="l l3"></i><div class="ptx"><span id="ptl"></span></div><b class="pn" id="ptn">000</b><div class="pl"><em id="pb"></em></div></div>
+<div class="pt" id="pt" aria-hidden="true"><i class="l l1"></i><i class="l l2"></i><i class="l l3"></i><div class="ptx"><span id="ptl"></span></div><div class="pbtn"><span id="pbl"></span><b id="ptn">000</b></div></div>
 <header>
   <a class="logo" href="#inicio">Messi</a>
   <nav aria-label="Principal"><a href="#inicio">início</a><a href="#momentos">momentos</a><a href="#em-campo">em campo</a><a href="#bolas">bolas de ouro</a></nav>
@@ -385,20 +386,20 @@ footer .up{position:relative;display:inline-block;margin-bottom:28px}
   ms.forEach(function(b){var sh=$('.shot',b),r=document.createElement('span');r.className='rv';r.textContent=b.dataset.cap;sh.appendChild(r)});
   var mt=$('.mt');mt.parentNode.appendChild(mt.cloneNode(true));
 
-  var pt=$('#pt'),ptl=$('#ptl'),ptn=$('#ptn'),pb=$('#pb'),busy=false;
+  var pt=$('#pt'),ptl=$('#ptl'),ptn=$('#ptn'),pbl=$('#pbl'),busy=false;
   function counter(ms){var s0=performance.now();(function f(n){var p=Math.min(1,(n-s0)/ms);
-    ptn.textContent=('00'+Math.round(p*100)).slice(-3);pb.style.left=p*100+'%';
+    ptn.textContent=('00'+Math.round(p*100)).slice(-3);
     if(p<1&&busy)requestAnimationFrame(f)})(s0)}
-  function lab(t){ptl.textContent='';t.split('').forEach(function(ch,i){
+  function lab(el,t){el.textContent='';t.split('').forEach(function(ch,i){
     var c=document.createElement('span');c.className='c';c.style.setProperty('--i',i);
-    c.textContent=ch===' '?'\u00a0':ch;ptl.appendChild(c)})}
+    c.textContent=ch===' '?'\u00a0':ch;el.appendChild(c)})}
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click',function(e){
       var id=a.getAttribute('href').slice(1),t=id&&document.getElementById(id);
       if(!t||rm)return;
       e.preventDefault();if(busy)return;busy=true;
-      lab(id==='inicio'?'início':a.textContent.trim());
-      ptn.textContent='000';pb.style.left='0%';pt.className='pt in';
+      lab(ptl,id==='inicio'?'início':a.textContent.trim());lab(pbl,'carregando');
+      ptn.textContent='000';pt.className='pt in';
       setTimeout(function(){counter(900)},350);
       setTimeout(function(){
         root.style.scrollBehavior='auto';
