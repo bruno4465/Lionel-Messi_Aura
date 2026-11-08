@@ -54,6 +54,21 @@ nav a:hover{text-decoration:underline;text-decoration-color:var(--acc);text-unde
 .shot::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(10,26,47,.88));z-index:1}
 .shot em{z-index:2;color:#fff}
 .credits{position:relative;margin:20px 0 0;padding:0;list-style:none;font-size:12px;opacity:.85;display:grid;gap:4px}
+.theme{font:500 13px var(--body);text-transform:lowercase;background:transparent;color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.theme:hover{background:var(--acc);border-color:var(--acc);color:#0A1A2F}
+.cursor{position:fixed;left:0;top:0;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--acc);pointer-events:none;z-index:40;opacity:0;transition:width .2s,height .2s,margin .2s,opacity .2s}
+.cursor.on{opacity:.9}.cursor.big{width:56px;height:56px;margin:-28px 0 0 -28px;opacity:.45}
+@media(hover:none){.cursor{display:none}}
+.hero .blob{transform:translate(calc(var(--mx,0)*28px),calc(var(--my,0)*28px));transition:transform .3s ease-out}
+.hero .ten{transform:translate(calc(var(--mx,0)*-18px),calc(var(--my,0)*-18px));transition:transform .3s ease-out}
+.hero-photo{transform:translate(calc(var(--mx,0)*10px),calc(var(--my,0)*10px));transition:transform .3s ease-out}
+.row{cursor:grab}.row.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.shot img{pointer-events:none;transition:transform .35s ease}
+.moment:hover .shot img{transform:scale(1.06)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;padding-block:clamp(48px,8vw,100px)}
+.stat{border-top:1px solid var(--line);padding-top:14px}
+.stat b{display:block;font:400 clamp(64px,11vw,150px)/.9 var(--display)}
+.stat span{color:var(--mute);font-size:14px;text-transform:lowercase}
 /* statement */
 .statement{padding-block:clamp(72px,14vw,180px)}
 .statement p{margin:0;max-width:20ch;font:400 clamp(34px,7.4vw,104px)/1.02 var(--display);text-transform:uppercase;color:var(--mute)}
@@ -105,7 +120,9 @@ footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
   <nav aria-label="Principal">
     <a href="#inicio">início</a><a href="#momentos">momentos</a><a href="#em-campo">em campo</a><a href="#bolas">bolas de ouro</a>
   </nav>
+  <button class="theme" id="theme" type="button" aria-label="Alternar modo escuro">escuro</button>
 </header>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="pitch" aria-hidden="true"><div class="ball" id="ball"></div></div>
 
 <main>
@@ -131,6 +148,13 @@ footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
     <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Moment_of_the_Champions_League_final_FC_Barcelona_-_Juventus_2015.jpg?width=700" alt="Lionel Messi na final da Champions League de 2015" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2015</em></div><h3>Champions League</h3><small>berlim, 2015</small></article>
     <article class="moment"><div class="shot"><i></i><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg?width=700" alt="Lionel Messi pela Argentina na Copa do Mundo de 2022" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><em>2022</em></div><h3>Campeão do mundo</h3><small>copa do mundo, 2022</small></article>
   </div>
+</section>
+
+<section class="stats wrap" id="numeros" aria-label="Em números">
+  <div class="stat"><b>8</b><span>bolas de ouro</span></div>
+  <div class="stat"><b>1</b><span>copa do mundo</span></div>
+  <div class="stat"><b>2</b><span>copas américa</span></div>
+  <div class="stat"><b>1</b><span>ouro olímpico</span></div>
 </section>
 
 <section class="tracks wrap" id="em-campo">
@@ -182,6 +206,44 @@ footer p{position:relative;margin:0;font-size:13px;opacity:.8;max-width:60ch}
   window.addEventListener('scroll',upd,{passive:true});
   window.addEventListener('resize',upd);
   upd();
+})();
+</script>
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById('theme'),
+      rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function dark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
+  function lab(){btn.textContent=dark()?'claro':'escuro'}
+  btn.addEventListener('click',function(){root.dataset.theme=dark()?'light':'dark';lab()});lab();
+
+  var st=document.querySelectorAll('.stat b');
+  if(!rm&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting)return;io.unobserve(e.target);
+      var b=e.target,t=+b.dataset.t,s=performance.now();
+      (function f(now){var p=Math.min(1,(now-s)/1200);b.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s);
+    })},{threshold:.6});
+    st.forEach(function(b){b.dataset.t=b.textContent;b.textContent='0';io.observe(b)});
+  }
+
+  var cur=document.getElementById('cursor'),hero=document.getElementById('inicio');
+  if(matchMedia('(hover:hover)').matches&&!rm){
+    window.addEventListener('pointermove',function(e){
+      cur.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)';cur.classList.add('on');
+      cur.classList.toggle('big',!!(e.target.closest&&e.target.closest('a,button,.coin,.moment,.row')));
+    });
+    root.addEventListener('mouseleave',function(){cur.classList.remove('on')});
+    hero.addEventListener('pointermove',function(e){
+      var r=hero.getBoundingClientRect();
+      hero.style.setProperty('--mx',((e.clientX-r.left)/r.width-.5).toFixed(3));
+      hero.style.setProperty('--my',((e.clientY-r.top)/r.height-.5).toFixed(3));
+    });
+  }
+
+  var row=document.querySelector('.row'),down=false,sx=0,sl=0;
+  row.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;sx=e.clientX;sl=row.scrollLeft;row.classList.add('drag')});
+  window.addEventListener('pointermove',function(e){if(down)row.scrollLeft=sl-(e.clientX-sx)});
+  window.addEventListener('pointerup',function(){down=false;row.classList.remove('drag')});
 })();
 </script>
 </body>
