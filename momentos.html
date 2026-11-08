@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-page="momentos">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Momentos — Lionel Messi ✦ M10</title>
+<meta name="description" content="Galeria de momentos de Lionel Messi: Barcelona, Argentina, Copa do Mundo 2022 e Inter Miami. Projeto de fã, não oficial.">
+<meta name="theme-color" content="#07090F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2307090F'/%3E%3Ctext x='32' y='42' font-family='Arial Black,Arial' font-size='26' font-weight='900' fill='%2375AADB' text-anchor='middle'%3E10%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..800;1,75..125,200..800&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.classList.add("js");
+try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classList.add("transit")}catch(e){}</script>
+</head>
+<body>
+
+<header class="hd">
+  <a class="logo" href="index.html">Messi<span class="star">✦</span><b>M10</b></a>
+  <nav class="nav" aria-label="Principal">
+    <a href="index.html">Início</a>
+    <a href="carreira.html">Carreira</a>
+    <a href="momentos.html" aria-current="page">Momentos</a>
+    <a href="records.html">Números</a>
+    <a href="jogo.html">Jogo</a>
+  </nav>
+  <div class="hd-tools">
+    <button class="theme" id="theme" type="button">claro</button>
+    <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false"><i></i></button>
+  </div>
+</header>
+
+<div class="menu" id="menu">
+  <a href="index.html"><small>01</small>Início</a>
+  <a href="carreira.html"><small>02</small>Carreira</a>
+  <a href="momentos.html" aria-current="page"><small>03</small>Momentos</a>
+  <a href="records.html"><small>04</small>Números</a>
+  <a href="jogo.html"><small>05</small>Jogo</a>
+</div>
+
+<div class="cursor" aria-hidden="true"></div>
+<div class="scroll-indicator" aria-hidden="true"><i></i></div>
+
+<main id="top">
+
+  <section class="hero" style="min-height:62svh" aria-label="Momentos — abertura">
+    <div class="hero-bg" aria-hidden="true"><img src="assets/img/copa-andar.jpg" alt=""></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow" data-reveal>03 — a galeria</p>
+        <div class="hero-title" aria-hidden="true">
+          <span data-split style="display:block">Momentos</span>
+          <span class="row2"><span data-split>que ficaram</span></span>
+        </div>
+        <p class="lede" data-reveal style="--d:.25s">Doze quadros de uma carreira impossível. Clique em qualquer foto para ampliar; use as setas para navegar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:clamp(4rem,10vh,8rem)" aria-label="Galeria de momentos">
+    <div class="mo-grid">
+
+      <button class="mo" type="button" data-full="assets/img/barca-v.jpg" data-cap="Anos de Barcelona: o clube que formou Messi desde os 13 anos." data-reveal style="--d:0s">
+        <span class="shot"><img src="assets/img/barca-v.jpg" alt="Messi em campo com a camisa do Barcelona" loading="lazy"><em>barcelona</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">O começo azul-grená</span><small>barça</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/barca-drible.jpg" data-cap="El Clásico: os duelos contra o Real Madrid que definiram uma era do futebol." data-reveal style="--d:.06s">
+        <span class="shot"><img src="assets/img/barca-drible.jpg" alt="Messi driblando adversário pelo Barcelona" loading="lazy"><em>el clásico</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">Drible de clássico</span><small>barça × real</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/bicicleta.jpg" data-cap="Acrobacia aérea com a camisa da Argentina: o 10 em voo." data-reveal style="--d:.12s">
+        <span class="shot"><img src="assets/img/bicicleta.jpg" alt="Messi conclui uma bicicleta com a camisa da Argentina" loading="lazy"><em>argentina</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">De bicicleta</span><small>acrobacia</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/portrait.jpg" data-cap="Com a medalha no peito, pela seleção argentina." data-reveal style="--d:0s">
+        <span class="shot"><img src="assets/img/portrait.jpg" alt="Messi com a camisa 10 da Argentina e medalha no peito" loading="lazy"><em>argentina</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">Medalha no peito</span><small>seleção</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/copa-erguer.jpg" data-cap="Catar, 18 de dezembro de 2022: a taça que faltava, erguida enfim." data-reveal style="--d:.06s">
+        <span class="shot"><img src="assets/img/copa-erguer.jpg" alt="Messi ergue a taça da Copa do Mundo de 2022" loading="lazy"><em>2022</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">A taça erguida</span><small>copa do mundo</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/copa-andar.jpg" data-cap="A caminhada solitária com a taça, após a final histórica contra a França." data-reveal style="--d:.12s">
+        <span class="shot"><img src="assets/img/copa-andar.jpg" alt="Messi caminha pelo gramado com a taça da Copa do Mundo" loading="lazy"><em>2022</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">A caminhada</span><small>final do mundo</small></figcaption>
+      </button>
+
+      <button class="mo wide" type="button" data-full="assets/img/copa-bisht.jpg" data-cap="O bisht real, posto pelos anfitriões do Catar, na celebração do título mundial." data-reveal style="--d:0s">
+        <span class="shot"><img src="assets/img/copa-bisht.jpg" alt="Elenco argentino celebra o título mundial com Messi de bisht erguendo a taça" loading="lazy"><em>catar 2022</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">O bisht</span><small>celebração</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/copa-bisht-v.jpg" data-cap="Em close: a taça do mundo nas mãos do capitão." data-reveal style="--d:.06s">
+        <span class="shot"><img src="assets/img/copa-bisht-v.jpg" alt="Messi celebra com a taça da Copa do Mundo, em quadro vertical" loading="lazy"><em>2022</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">Close do título</span><small>taça nas mãos</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/copa-time.jpg" data-cap="O elenco campeão do mundo, juntos na celebração." data-reveal style="--d:.12s">
+        <span class="shot"><img src="assets/img/copa-time.jpg" alt="Elenco da Argentina celebra o título da Copa do Mundo de 2022" loading="lazy"><em>2022</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">O grupo eterno</span><small>argentina</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/copa-grupo.jpg" data-cap="A festa alviceleste: a primeira Copa do Mundo da Argentina desde 1986." data-reveal style="--d:0s">
+        <span class="shot"><img src="assets/img/copa-grupo.jpg" alt="Jogadores da Argentina comemoram com a taça da Copa do Mundo" loading="lazy"><em>2022</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">Festa alviceleste</span><small>três estrelas</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/miami-retrato.jpg" data-cap="A era rosa: Messi no Inter Miami, desde julho de 2023." data-reveal style="--d:.06s">
+        <span class="shot"><img src="assets/img/miami-retrato.jpg" alt="Messi com a camisa rosa do Inter Miami" loading="lazy"><em>miami</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">A era rosa</span><small>inter miami</small></figcaption>
+      </button>
+
+      <button class="mo" type="button" data-full="assets/img/miami-acao.jpg" data-cap="Gol e celebração com a camisa rosa do Inter Miami." data-reveal style="--d:.12s">
+        <span class="shot"><img src="assets/img/miami-acao.jpg" alt="Messi comemora com a camisa do Inter Miami" loading="lazy"><em>miami</em><span class="see">ampliar</span></span>
+        <figcaption><span class="t">Show em rosado</span><small>mls</small></figcaption>
+      </button>
+
+    </div>
+  </section>
+
+  <section class="wrap" aria-label="Próxima página" style="padding-block:0 clamp(5rem,12vh,9rem)">
+    <p class="eyebrow" data-reveal>continue</p>
+    <div class="rows" data-reveal style="--d:.1s">
+      <a class="row-l" href="records.html">
+        <span class="tt"><small>04</small><h3>Números</h3></span>
+        <span class="arw">→</span>
+      </a>
+      <a class="row-l" href="jogo.html">
+        <span class="tt"><small>05</small><h3>Jogo</h3></span>
+        <span class="arw">→</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap f-top">
+    <div>
+      <p class="eyebrow" data-reveal>obrigado pela visita</p>
+      <h2 class="display" data-reveal="line">De Rosário <span class="serif-i">a Miami.</span></h2>
+      <ul class="f-nav">
+        <li><a href="index.html">início</a></li>
+        <li><a href="carreira.html">carreira</a></li>
+        <li><a href="momentos.html">momentos</a></li>
+        <li><a href="records.html">números</a></li>
+        <li><a href="jogo.html">jogo</a></li>
+      </ul>
+    </div>
+    <div class="f-cta" data-reveal>
+      <a class="btn-w" href="carreira.html">ver a carreira <span class="arw">→</span></a>
+      <a class="btn-w gold" href="records.html">as 8 bolas de ouro <span class="arw">→</span></a>
+      <a class="up" href="#top">voltar ao topo <i>↑</i></a>
+    </div>
+  </div>
+  <div class="f-word" aria-hidden="true">Messi <span class="star">✦</span> <b>M10</b></div>
+  <ul class="credits wrap">
+    <li>Projeto de fã, não oficial, sem vínculo com Lionel Messi, Inter Miami, FC Barcelona ou AFA. Todo o texto é original.</li>
+    <li>Fotos de imprensa obtidas por busca pública, usadas de forma editorial e sem fins comerciais — créditos aos autores originais.</li>
+    <li>Direção de arte e transições inspiradas no site de Lando Norris (OFF+BRAND); implementação própria, com Rive e Lenis (MIT).</li>
+  </ul>
+</footer>
+
+<dialog id="lb" aria-label="Foto ampliada">
+  <button class="x" type="button">fechar</button>
+  <div class="ph"><img alt=""><p></p></div>
+  <div class="nv">
+    <button class="x pv" type="button">← anterior</button>
+    <button class="x nx" type="button">próxima →</button>
+  </div>
+</dialog>
+
+<div class="transition-w" aria-hidden="true">
+  <div class="tr-curtain"><i></i><i></i></div>
+  <div class="transition-rive"><canvas data-rive-primary></canvas></div>
+  <div class="tr-word" aria-hidden="true">M10</div>
+  <div class="transition-btn">
+    <button class="btn-w gold" type="button">entrar <span class="arw">↓</span></button>
+    <span class="hint">messi ✦ m10 — clique em qualquer lugar para entrar</span>
+  </div>
+</div>
+
+<script src="assets/js/lenis.min.js"></script>
+<script src="assets/rive/rive.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
