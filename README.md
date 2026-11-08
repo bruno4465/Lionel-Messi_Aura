@@ -64,6 +64,13 @@ no scroll, marquee com velocidade/direção reativas, header que se esconde, bar
 progresso lateral, trilha da timeline, contadores e acordeão. Respeita
 `prefers-reduced-motion`.
 
+**Rolar para o próximo tópico:** ao chegar no rodapé e continuar rolando
+(rodinha com gesto firme ou arrastar para cima no celular), a transição de página
+dispara sozinha para o próximo tópico — na ordem
+início → carreira → momentos → números → jogo → início. A faixa
+"role para continuar" no fim de cada página mostra o destino (e clicar nela
+também funciona). No arquivo único a faixa se atualiza a cada rota.
+
 ## Créditos
 Projeto de fã, não oficial. Fotos de imprensa via busca pública (ESPN, Fox Sports,
 Gulf News, The New Yorker e outras), uso editorial sem fins comerciais. Direção de arte

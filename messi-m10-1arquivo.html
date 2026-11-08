@@ -528,6 +528,35 @@ footer{border-top:1px solid var(--line); background:var(--bg2); position:relativ
 .credits li{margin:.3rem 0; list-style:none}
 .credits ul{margin:.6rem 0 0; padding:0}
 .credits a{color:var(--acc-soft); text-decoration:underline; text-underline-offset:3px}
+/* ---- rolar além do fim → próxima página (mantém a transição) ---- */
+.next-page{
+  display:flex; flex-direction:column; align-items:center; gap:.9rem;
+  padding:3.2rem 1.5rem 3.6rem; border-top:1px solid var(--line);
+  text-align:center; position:relative; overflow:clip; width:100%;
+}
+.next-page::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background:radial-gradient(60% 130% at 50% 115%, rgba(117,170,219,.16), transparent 70%);
+  opacity:0; transition:opacity .5s var(--ease);
+}
+.next-page:hover::before{opacity:1}
+.next-page small{
+  position:relative; z-index:1; font-size:.66rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--mute); transition:color .3s;
+}
+.next-page .np-t{
+  position:relative; z-index:1; display:inline-flex; align-items:center; gap:.5em;
+  font-family:var(--display); font-weight:660; font-stretch:93%;
+  text-transform:uppercase; line-height:.9; letter-spacing:-.02em;
+  font-size:clamp(2rem,5vw,3.4rem); color:var(--ink);
+  transition:color .3s var(--ease);
+}
+.next-page .np-t i{
+  font-style:normal; font-size:.62em; transform:translateY(.1em);
+  transition:transform .45s var(--ease); color:var(--acc);
+}
+.next-page:hover .np-t i{transform:translate(.35em,.1em)}
+.next-page:hover small{color:var(--acc)}
 .f-word{
   display:block; text-align:center; font-family:var(--display); font-weight:660; font-stretch:93%; text-transform:uppercase;
   font-size:clamp(4rem,14.5vw,15rem); line-height:.78; letter-spacing:-.02em; padding-top:2rem;
@@ -1225,6 +1254,11 @@ try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classL
     <li>Fotos de imprensa obtidas por busca pública (ESPN, Fox Sports, Gulf News, The New Yorker e outras), usadas de forma editorial e sem fins comerciais — créditos aos autores originais.</li>
     <li>Direção de arte e transições inspiradas no site de Lando Norris (OFF+BRAND); implementação própria, com animação de página em Rive e rolagem suave Lenis (MIT).</li>
   </ul>
+
+  <a class="next-page" href="#/carreira">
+    <small>role para continuar</small>
+    <span class="np-t">Carreira <i>↓</i></span>
+  </a>
 </footer>
 
 <!-- ===================== TRANSIÇÃO (mecânica Lando) ===================== -->
@@ -1386,6 +1420,15 @@ const TRANS = (() => {
     }
   }
 
+  /* navega com a transição — usada por cliques e por "rolar além do fim" */
+  function navigateTo(href) {
+    if (busy) return; busy = true;
+    try { sessionStorage.setItem("m-transit", "1"); } catch (e) {}
+    doc.classList.add("is-transitioning");
+    pageTransitionOut();
+    setTimeout(() => { location.href = href; }, REDUCED ? 80 : 1000);
+  }
+
   /* intercepta cliques internos → out → navega (lL = 1000ms, como o Lando) */
   function armLinks() {
     document.addEventListener("click", e => {
@@ -1398,11 +1441,7 @@ const TRANS = (() => {
       if (url.hash && url.pathname === location.pathname) return;
       if (a.dataset.taxiIgnore !== undefined) return;
       e.preventDefault();
-      if (busy) return; busy = true;
-      try { sessionStorage.setItem("m-transit", "1"); } catch (e) {}
-      doc.classList.add("is-transitioning");
-      pageTransitionOut();
-      setTimeout(() => { location.href = url.href; }, REDUCED ? 80 : 1000);
+      navigateTo(url.href);
     });
   }
 
@@ -1432,7 +1471,7 @@ const TRANS = (() => {
     }
   }
   boot();
-  return { out: pageTransitionOut, in: pageTransitionIn };
+  return { out: pageTransitionOut, in: pageTransitionIn, go: navigateTo };
 })();
 
 /* ------------------------------------------------------------
@@ -1752,6 +1791,38 @@ if (field) {
 /* exposto p/ uso avançado (roteador da versão de arquivo único) */
 window.M10TRANS = TRANS;
 
+/* ------------------------------------------------------------
+   12) ROLAR ALÉM DO FIM → PRÓXIMA PÁGINA (mantém a transição)
+   ------------------------------------------------------------ */
+(() => {
+  const NEXT = $(".next-page");
+  /* no arquivo único quem cuida é o roteador (não há recarga de página) */
+  if (!NEXT || !TRANS.go || $(".route")) return;
+  const atBottom = () => scrollY + innerHeight >= doc.scrollHeight - 4;
+  const armed = () => !doc.classList.contains("is-transitioning")
+      && !doc.querySelector(".menu.on") && !(typeof lb !== "undefined" && lb && lb.open)
+      && atBottom(); /* busy/overlay: validados dentro de TRANS.go */
+  let acc = 0, lastT = 0;
+  addEventListener("wheel", e => {
+    if (e.deltaY <= 0 || !armed()) { acc = 0; return; }
+    const now = performance.now();
+    if (now - lastT > 450) acc = 0;       /* gesto precisa ser contínuo */
+    lastT = now;
+    acc += e.deltaY;
+    if (acc > 140) { acc = 0; TRANS.go(new URL(NEXT.getAttribute("href"), location.href).href); }
+  }, { passive: true });
+  /* toque: arrastar para cima já no fim */
+  let tY = null;
+  addEventListener("touchstart", e => { tY = e.touches[0].clientY; }, { passive: true });
+  addEventListener("touchend", e => {
+    if (tY === null) return;
+    const dy = tY - e.changedTouches[0].clientY;
+    tY = null;
+    if (dy > 60 && armed() && !e.target.closest("#field"))
+      TRANS.go(new URL(NEXT.getAttribute("href"), location.href).href);
+  }, { passive: true });
+})();
+
 })();
 
 </script>
@@ -1767,6 +1838,7 @@ document.querySelectorAll('[data-copy]').forEach(el => {
 const T = window.M10TRANS;
 const routes = ["home","carreira","momentos","records","jogo"];
 const titles = {'home': 'Lionel Messi ✦ M10 — de Rosário a Miami', 'carreira': 'Carreira — Lionel Messi ✦ M10', 'momentos': 'Momentos — Lionel Messi ✦ M10', 'records': 'Números — Lionel Messi ✦ M10', 'jogo': 'Jogo — Lionel Messi ✦ M10'};
+const names = {"home":"Início","carreira":"Carreira","momentos":"Momentos","records":"Números","jogo":"Jogo"};
 let current = "home";
 const parse = () => {
   const h = location.hash;
@@ -1774,10 +1846,22 @@ const parse = () => {
   const r = h.slice(2) || "home";
   return routes.includes(r) ? r : "home";
 };
+const nextOf = r => routes[(routes.indexOf(r) + 1) % routes.length];
+function syncNext(route) {
+  const np = document.querySelector(".next-page");
+  if (!np) return;
+  const nx = nextOf(route);
+  np.setAttribute("href", nx === "home" ? "#/" : "#/" + nx);
+  const t = np.querySelector(".np-t");
+  if (t) t.innerHTML = (names[nx] || nx) + " <i>↓</i>";
+  const s = np.querySelector("small");
+  if (s) s.textContent = nx === "home" ? "voltar ao começo" : "role para continuar";
+}
 function show(route) {
   document.querySelectorAll(".route").forEach(d =>
     d.classList.toggle("on", d.dataset.route === route));
   document.title = titles[route] || titles.home;
+  syncNext(route);
   window.scrollTo(0, 0);
   window.dispatchEvent(new Event("resize")); /* repoixa bola do jogo etc. */
   if (T && T.in) requestAnimationFrame(() => requestAnimationFrame(() => T.in()));
@@ -1796,14 +1880,42 @@ document.addEventListener("click", e => {
   if (target === "#/" + (now === "home" ? "" : now)) { window.scrollTo({top:0, behavior:"smooth"}); return; }
   location.hash = target;
 }, true);
+let navCd = false; /* cooldown do scroll-fim */
 addEventListener("hashchange", () => {
   const r = parse();
   if (!r || r === current) return;
+  navCd = true;
+  document.documentElement.classList.remove("is-transitioning"); /* segurança */
   if (T && T.out) T.out();
   setTimeout(() => { current = r; show(r); }, 1000);
+  setTimeout(() => { navCd = false; }, 2000);
 });
+/* rolar além do fim → próxima rota (mantém a transição via hashchange) */
+const atBottom = () => (window.scrollY || doc2().scrollTop) + innerHeight >= document.documentElement.scrollHeight - 4;
+const doc2 = () => document.documentElement;
+const armed = () => !navCd && !document.documentElement.classList.contains("is-transitioning")
+    && !document.querySelector(".menu.on") && !document.querySelector("dialog[open]") && atBottom();
+let acc = 0, lastT = 0;
+addEventListener("wheel", e => {
+  if (e.deltaY <= 0 || !armed()) { acc = 0; return; }
+  const now = performance.now();
+  if (now - lastT > 450) acc = 0;
+  lastT = now;
+  acc += e.deltaY;
+  if (acc > 140) { acc = 0; location.hash = document.querySelector(".next-page").getAttribute("href"); }
+}, { passive: true });
+let tY = null;
+addEventListener("touchstart", e => { tY = e.touches[0].clientY; }, { passive: true });
+addEventListener("touchend", e => {
+  if (tY === null) return;
+  const dy = tY - e.changedTouches[0].clientY;
+  tY = null;
+  if (dy > 60 && armed() && !e.target.closest("#field"))
+    location.hash = document.querySelector(".next-page").getAttribute("href");
+}, { passive: true });
 const first = parse();
 if (first && first !== "home") { current = first; show(first); }
+else { syncNext("home"); }
 })();
 
 </script>

@@ -131,6 +131,15 @@ const TRANS = (() => {
     }
   }
 
+  /* navega com a transição — usada por cliques e por "rolar além do fim" */
+  function navigateTo(href) {
+    if (busy) return; busy = true;
+    try { sessionStorage.setItem("m-transit", "1"); } catch (e) {}
+    doc.classList.add("is-transitioning");
+    pageTransitionOut();
+    setTimeout(() => { location.href = href; }, REDUCED ? 80 : 1000);
+  }
+
   /* intercepta cliques internos → out → navega (lL = 1000ms, como o Lando) */
   function armLinks() {
     document.addEventListener("click", e => {
@@ -143,11 +152,7 @@ const TRANS = (() => {
       if (url.hash && url.pathname === location.pathname) return;
       if (a.dataset.taxiIgnore !== undefined) return;
       e.preventDefault();
-      if (busy) return; busy = true;
-      try { sessionStorage.setItem("m-transit", "1"); } catch (e) {}
-      doc.classList.add("is-transitioning");
-      pageTransitionOut();
-      setTimeout(() => { location.href = url.href; }, REDUCED ? 80 : 1000);
+      navigateTo(url.href);
     });
   }
 
@@ -177,7 +182,7 @@ const TRANS = (() => {
     }
   }
   boot();
-  return { out: pageTransitionOut, in: pageTransitionIn };
+  return { out: pageTransitionOut, in: pageTransitionIn, go: navigateTo };
 })();
 
 /* ------------------------------------------------------------
@@ -496,5 +501,37 @@ if (field) {
 
 /* exposto p/ uso avançado (roteador da versão de arquivo único) */
 window.M10TRANS = TRANS;
+
+/* ------------------------------------------------------------
+   12) ROLAR ALÉM DO FIM → PRÓXIMA PÁGINA (mantém a transição)
+   ------------------------------------------------------------ */
+(() => {
+  const NEXT = $(".next-page");
+  /* no arquivo único quem cuida é o roteador (não há recarga de página) */
+  if (!NEXT || !TRANS.go || $(".route")) return;
+  const atBottom = () => scrollY + innerHeight >= doc.scrollHeight - 4;
+  const armed = () => !doc.classList.contains("is-transitioning")
+      && !doc.querySelector(".menu.on") && !(typeof lb !== "undefined" && lb && lb.open)
+      && atBottom(); /* busy/overlay: validados dentro de TRANS.go */
+  let acc = 0, lastT = 0;
+  addEventListener("wheel", e => {
+    if (e.deltaY <= 0 || !armed()) { acc = 0; return; }
+    const now = performance.now();
+    if (now - lastT > 450) acc = 0;       /* gesto precisa ser contínuo */
+    lastT = now;
+    acc += e.deltaY;
+    if (acc > 140) { acc = 0; TRANS.go(new URL(NEXT.getAttribute("href"), location.href).href); }
+  }, { passive: true });
+  /* toque: arrastar para cima já no fim */
+  let tY = null;
+  addEventListener("touchstart", e => { tY = e.touches[0].clientY; }, { passive: true });
+  addEventListener("touchend", e => {
+    if (tY === null) return;
+    const dy = tY - e.changedTouches[0].clientY;
+    tY = null;
+    if (dy > 60 && armed() && !e.target.closest("#field"))
+      TRANS.go(new URL(NEXT.getAttribute("href"), location.href).href);
+  }, { passive: true });
+})();
 
 })();

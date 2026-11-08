@@ -515,6 +515,35 @@ footer{border-top:1px solid var(--line); background:var(--bg2); position:relativ
 .credits li{margin:.3rem 0; list-style:none}
 .credits ul{margin:.6rem 0 0; padding:0}
 .credits a{color:var(--acc-soft); text-decoration:underline; text-underline-offset:3px}
+/* ---- rolar além do fim → próxima página (mantém a transição) ---- */
+.next-page{
+  display:flex; flex-direction:column; align-items:center; gap:.9rem;
+  padding:3.2rem 1.5rem 3.6rem; border-top:1px solid var(--line);
+  text-align:center; position:relative; overflow:clip; width:100%;
+}
+.next-page::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background:radial-gradient(60% 130% at 50% 115%, rgba(117,170,219,.16), transparent 70%);
+  opacity:0; transition:opacity .5s var(--ease);
+}
+.next-page:hover::before{opacity:1}
+.next-page small{
+  position:relative; z-index:1; font-size:.66rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--mute); transition:color .3s;
+}
+.next-page .np-t{
+  position:relative; z-index:1; display:inline-flex; align-items:center; gap:.5em;
+  font-family:var(--display); font-weight:660; font-stretch:93%;
+  text-transform:uppercase; line-height:.9; letter-spacing:-.02em;
+  font-size:clamp(2rem,5vw,3.4rem); color:var(--ink);
+  transition:color .3s var(--ease);
+}
+.next-page .np-t i{
+  font-style:normal; font-size:.62em; transform:translateY(.1em);
+  transition:transform .45s var(--ease); color:var(--acc);
+}
+.next-page:hover .np-t i{transform:translate(.35em,.1em)}
+.next-page:hover small{color:var(--acc)}
 .f-word{
   display:block; text-align:center; font-family:var(--display); font-weight:660; font-stretch:93%; text-transform:uppercase;
   font-size:clamp(4rem,14.5vw,15rem); line-height:.78; letter-spacing:-.02em; padding-top:2rem;
