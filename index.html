@@ -26,6 +26,17 @@ html{scrollbar-color:#B88F3A var(--bg)}.row{scrollbar-width:thin;scrollbar-color
 @keyframes out{to{transform:translateY(-100%);visibility:hidden}}
 @keyframes fade{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
+.statement p .w{color:var(--ink);opacity:.22;transition:opacity .4s}.statement p .w.on{opacity:1}
+.moment .shot{transition:transform .3s ease-out}
+.nv{display:flex;gap:10px;justify-content:center;margin-top:16px}.nv .x{margin:0}
+.coin.sel{background:var(--goldg);transform:translateY(-6px)}.coin.sel .y{opacity:0;transform:scale(1.4)}.coin.sel .n{opacity:1;transform:none}
+.info{margin:26px 0 0;min-height:3.4em;max-width:60ch;color:var(--mute)}.info b{color:var(--ink)}
+.field{position:relative;height:min(60vh,440px);border-radius:14px;overflow:hidden;background:var(--deep);box-shadow:0 0 0 1px rgba(199,160,74,.5);margin-bottom:clamp(60px,10vw,120px)}
+.field::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--goldh)}
+.kball{position:absolute;left:0;top:0;width:72px;height:72px;border-radius:50%;border:0;padding:0;cursor:pointer;background:radial-gradient(circle,#0B1626 0 13%,transparent 14%),radial-gradient(circle at 32% 30%,#fff,#bfd0e2);box-shadow:inset 0 0 0 2px var(--acc),0 14px 24px rgba(0,0,0,.4);will-change:transform}
+.score{position:absolute;left:20px;top:14px;color:var(--deep-ink);pointer-events:none}
+.score b{display:block;font:400 clamp(64px,10vw,120px)/.9 var(--display)}
+.score span{font-size:14px;text-transform:lowercase;opacity:.8}.score i{font-style:normal}
 a{color:inherit}:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .wrap{padding-inline:clamp(20px,5vw,72px)}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px clamp(20px,5vw,72px);background:var(--bg);border-bottom:1px solid transparent;border-image:var(--goldh) 1}
@@ -174,7 +185,7 @@ footer .up{position:relative;display:inline-block;margin-bottom:28px}
     <button class="moment" type="button" data-cap="Copa do Mundo, 2022. Foram sete gols e a Bola de Ouro do torneio; na final, a Argentina bateu a França nos pênaltis."><span class="shot"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg?width=700" alt="Lionel Messi pela Argentina na Copa de 2022" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><span class="see">ampliar</span><em>2022</em></span><span class="t">Campeão do mundo</span><small>7 gols no torneio</small></button>
   </div>
 </section>
-<dialog id="lb"><button class="x" type="button">fechar</button><img alt=""><p></p></dialog>
+<dialog id="lb"><button class="x" type="button">fechar</button><img alt=""><p></p><div class="nv"><button class="x pv" type="button">anterior</button><button class="x nx" type="button">próxima</button></div></dialog>
 
 <section class="stats wrap" aria-label="Em números">
   <div class="stat"><b>8</b><span>bolas de ouro</span></div>
@@ -192,15 +203,21 @@ footer .up{position:relative;display:inline-block;margin-bottom:28px}
 <section class="hof wrap" id="bolas">
   <div class="sec-h"><h2>Bolas de Ouro</h2><p>Oito prêmios entre 2009 e 2023. Passe o mouse ou foque em cada um para ver a ordem.</p></div>
   <div class="grid">
-    <div class="coin" tabindex="0"><span class="y">2009</span><span class="n">1ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2010</span><span class="n">2ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2011</span><span class="n">3ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2012</span><span class="n">4ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2015</span><span class="n">5ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2019</span><span class="n">6ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2021</span><span class="n">7ª</span></div>
-    <div class="coin" tabindex="0"><span class="y">2023</span><span class="n">8ª</span></div>
+    <div class="coin" tabindex="0" data-info="Primeira. Ano em que o Barcelona ganhou tudo, incluindo a Champions League em Roma."><span class="y">2009</span><span class="n">1ª</span></div>
+    <div class="coin" tabindex="0" data-info="Segunda, e a primeira com o prêmio unificado da FIFA e da France Football."><span class="y">2010</span><span class="n">2ª</span></div>
+    <div class="coin" tabindex="0" data-info="Terceira, com a Champions League vencida em Wembley."><span class="y">2011</span><span class="n">3ª</span></div>
+    <div class="coin" tabindex="0" data-info="Quarta, no ano em que marcou 91 gols em 12 meses."><span class="y">2012</span><span class="n">4ª</span></div>
+    <div class="coin" tabindex="0" data-info="Quinta, na temporada do título triplo do Barcelona."><span class="y">2015</span><span class="n">5ª</span></div>
+    <div class="coin" tabindex="0" data-info="Sexta, o que o colocou à frente de Cristiano Ronaldo, com cinco."><span class="y">2019</span><span class="n">6ª</span></div>
+    <div class="coin" tabindex="0" data-info="Sétima, logo depois da Copa América vencida no Maracanã."><span class="y">2021</span><span class="n">7ª</span></div>
+    <div class="coin" tabindex="0" data-info="Oitava, um recorde, depois da Copa do Mundo de 2022."><span class="y">2023</span><span class="n">8ª</span></div>
   </div>
+  <p class="info" id="info" aria-live="polite">Clique em uma moeda para ver a história daquele prêmio.</p>
+</section>
+
+<section class="play wrap" id="jogo">
+  <div class="sec-h"><h2>Embaixadinhas</h2><p>Clique na bola para mantê-la no ar. Se ela cair, recomeça.</p></div>
+  <div class="field" id="field"><button class="kball" id="kball" type="button" aria-label="Chutar a bola"></button><div class="score"><b id="sc">0</b><span>recorde <i id="best">0</i></span></div></div>
 </section>
 </main>
 
@@ -267,12 +284,70 @@ footer .up{position:relative;display:inline-block;margin-bottom:28px}
   addEventListener('pointerup',function(){down=false;row.classList.remove('drag')});
   row.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
 
-  var lb=$('#lb'),li=$('img',lb),lp=$('p',lb);
-  document.querySelectorAll('.moment').forEach(function(b){b.addEventListener('click',function(){
-    var im=$('img',b);if(!im)return;
-    li.src=im.src.replace('width=700','width=1400');li.alt=im.alt;lp.textContent=b.dataset.cap;lb.showModal()})});
+  var lb=$('#lb'),li=$('img',lb),lp=$('p',lb),ms=Array.prototype.slice.call(document.querySelectorAll('.moment')),ix=0;
+  function show(i){ix=(i+ms.length)%ms.length;var b=ms[ix],im=$('img',b);if(!im)return;li.src=im.src.replace('width=700','width=1400');li.alt=im.alt;lp.textContent=b.dataset.cap}
+  ms.forEach(function(b,i){b.addEventListener('click',function(){show(i);lb.showModal()})});
   $('.x',lb).onclick=function(){lb.close()};
+  $('.pv',lb).onclick=function(){show(ix-1)};$('.nx',lb).onclick=function(){show(ix+1)};
+  lb.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')show(ix-1);if(e.key==='ArrowRight')show(ix+1)});
   lb.addEventListener('click',function(e){if(e.target===lb)lb.close()});
+
+  var sp=$('.statement p');
+  if(sp&&!rm){
+    (function wrap(n){Array.prototype.slice.call(n.childNodes).forEach(function(c){
+      if(c.nodeType===3){var f=document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;
+          if(/^\s+$/.test(t))f.appendChild(document.createTextNode(t));
+          else{var w=document.createElement('span');w.className='w';w.textContent=t;f.appendChild(w)}});
+        c.parentNode.replaceChild(f,c)}
+      else if(c.nodeType===1)wrap(c)})})(sp);
+    var ws=sp.querySelectorAll('.w');
+    function rv(){var r=sp.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.85-r.top)/(r.height+innerHeight*.35))),k=Math.round(p*ws.length);
+      ws.forEach(function(w,i){w.classList.toggle('on',i<k)})}
+    addEventListener('scroll',rv,{passive:true});addEventListener('resize',rv);rv();
+  }
+
+  if(fine&&!rm){
+    document.querySelectorAll('.moment .shot').forEach(function(sh){
+      sh.addEventListener('pointermove',function(e){var r=sh.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        sh.style.transform='perspective(700px) rotateY('+x*10+'deg) rotateX('+(-y*8)+'deg)'});
+      sh.addEventListener('pointerleave',function(){sh.style.transform=''})});
+    document.querySelectorAll('.theme,.logo,nav a').forEach(function(el){
+      el.addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();
+        el.style.transform='translate('+(e.clientX-r.left-r.width/2)*.25+'px,'+(e.clientY-r.top-r.height/2)*.35+'px)'});
+      el.addEventListener('pointerleave',function(){el.style.transform=''})});
+  }
+
+  var info=$('#info');
+  document.querySelectorAll('.coin').forEach(function(c){
+    c.setAttribute('role','button');
+    c.addEventListener('click',function(){
+      document.querySelectorAll('.coin.sel').forEach(function(o){o.classList.remove('sel')});
+      c.classList.add('sel');info.innerHTML='<b>'+c.querySelector('.y').textContent+'.</b> '+c.dataset.info});
+    c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click()}})});
+
+  var fd=$('#field'),kb=$('#kball'),sc=$('#sc'),bs=$('#best'),S=72,x=0,y=0,vx=0,vy=0,n=0,best=0,run=false,t0=0;
+  try{best=+localStorage.getItem('messi-best')||0}catch(e){}
+  bs.textContent=best;
+  function place(){kb.style.transform='translate('+x+'px,'+y+'px) rotate('+x*2+'deg)'}
+  function reset(){x=(fd.clientWidth-S)/2;y=fd.clientHeight-S;vx=vy=0;place()}
+  function step(now){
+    if(!run)return;
+    var dt=Math.min(32,now-t0)/16.67,w=fd.clientWidth,h=fd.clientHeight;t0=now;
+    vy+=.55*dt;x+=vx*dt;y+=vy*dt;
+    if(x<0){x=0;vx=Math.abs(vx)}if(x>w-S){x=w-S;vx=-Math.abs(vx)}
+    if(y>=h-S){y=h-S;run=false;vx=vy=0;
+      if(n>best){best=n;bs.textContent=n;try{localStorage.setItem('messi-best',n)}catch(e){}}
+      place();return}
+    place();requestAnimationFrame(step)}
+  kb.addEventListener('click',function(e){
+    if(!run){n=0;run=true;t0=performance.now();requestAnimationFrame(step)}
+    n++;sc.textContent=n;
+    var r=kb.getBoundingClientRect();
+    vx=e.detail?((r.left+S/2)-e.clientX)/S*14:(Math.random()-.5)*8;
+    vy=-14.5-Math.random()*2});
+  addEventListener('resize',function(){if(!run)reset()});
+  reset();
 })();
 </script>
 </body>
