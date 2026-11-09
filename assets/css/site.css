@@ -65,7 +65,7 @@ body::after{
 
 /* ---------- layout ---------- */
 .wrap{width:min(1500px,92vw); margin-inline:auto}
-main{position:relative; z-index:1}
+main{position:relative; z-index:1; padding-bottom:clamp(2.5rem,7vh,5rem)}
 section{position:relative}
 
 /* ---------- tipografia ---------- */
@@ -100,7 +100,7 @@ h1,h2,h3{margin:0}
 .hd.hide{transform:translateY(-110%)}
 .hd.solid{background:color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-color:var(--line)}
 .logo{display:flex; align-items:baseline; gap:.45rem; font-family:var(--display); font-weight:660; font-stretch:93%; text-transform:uppercase; letter-spacing:.02em; font-size:1.25rem}
-.logo b{font-weight:660}
+.logo b{font-weight:660; color:var(--acc)}
 .logo .star{color:var(--gold); font-size:.8em; transform:translateY(-2px)}
 .nav{display:flex; gap:.4rem}
 .nav a{
@@ -208,6 +208,7 @@ h1,h2,h3{margin:0}
   font-family:var(--display); font-weight:660; font-stretch:93%;
   text-transform:uppercase; line-height:.88; letter-spacing:-.02em;
   font-size:clamp(4.2rem,12.5vw,11.5rem); margin:.4rem 0 0;
+  text-shadow:0 4px 44px rgba(7,9,15,.5), 0 1px 14px rgba(7,9,15,.32);
 }
 .hero-title > span[data-split]{display:block}
 .hero-title .row2{display:flex; align-items:baseline; gap:.18em}
@@ -224,7 +225,10 @@ h1,h2,h3{margin:0}
   position:relative; width:min(340px,78vw); border-radius:var(--r2); overflow:hidden;
   border:1px solid var(--line2); background:var(--panel); aspect-ratio:3/4;
   transform:rotate(2.2deg); box-shadow:0 30px 80px rgba(0,0,0,.5);
+  animation:floaty 7s ease-in-out infinite;
 }
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@media (prefers-reduced-motion:reduce){ .hero-card{animation:none} }
 .hero-card img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.06); transition:opacity .8s var(--ease2), transform 1.4s var(--ease2)}
 .hero-card img.on{opacity:1; transform:scale(1)}
 .hero-card .tag{
@@ -494,13 +498,18 @@ dialog#lb::backdrop{background:color-mix(in srgb,#05070C 86%, transparent); back
 dialog#lb .ph{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:5.4rem min(4vw,3rem) 6.4rem}
 dialog#lb img{max-width:min(1200px,92vw); max-height:70svh; border-radius:var(--r2); border:1px solid var(--line2); box-shadow:0 40px 120px rgba(0,0,0,.6)}
 dialog#lb p{margin:1.2rem 0 0; max-width:760px; text-align:center; color:var(--mute)}
-dialog#lb .x{
+dialog#lb > .x{
   position:absolute; top:1.2rem; right:1.4rem; z-index:2; padding:.6rem 1.1rem; border:1px solid var(--line2); border-radius:99px;
   font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);
   transition:background-color .3s, color .3s;
 }
+dialog#lb .nv .x{position:static} /* anterior/próxima ficam no fluxo, ao lado do contador */
 dialog#lb .x:hover{background:var(--ink); color:var(--bg)}
-dialog#lb .nv{position:absolute; bottom:1.6rem; left:50%; translate:-50%; display:flex; gap:.6rem}
+dialog#lb .nv{position:absolute; bottom:1.6rem; left:50%; translate:-50%; display:flex; align-items:center; gap:.6rem}
+.lb-count{
+  min-width:5.2em; text-align:center; font-variant-numeric:tabular-nums;
+  font-size:.78rem; letter-spacing:.3em; text-indent:.3em; color:var(--mute);
+}
 
 /* ---------- footer ---------- */
 footer{border-top:1px solid var(--line); background:var(--bg2); position:relative; overflow:clip}
@@ -508,17 +517,20 @@ footer{border-top:1px solid var(--line); background:var(--bg2); position:relativ
 .f-top h2{font-size:clamp(2.6rem,6.4vw,5.6rem)}
 .f-top h2 .serif-i{color:var(--acc)}
 .f-cta{display:flex; flex-direction:column; gap:1rem; align-items:flex-start; justify-content:flex-end}
-.f-nav{display:flex; flex-wrap:wrap; gap:.4rem 1.6rem; list-style:none; margin:2.2rem 0 0; padding:0}
-.f-nav a{font-size:.82rem; letter-spacing:.16em; text-transform:uppercase; color:var(--mute); transition:color .3s}
-.f-nav a:hover{color:var(--acc)}
+/* rodapé mínimo (páginas intermediárias): só a deixa de scroll + créditos finos.
+   O rodapé grande "obrigado pela visita" existe apenas na última página (jogo). */
+footer.f-min{border-top:0; background:transparent}
+footer.f-min .credits{margin:0; padding:1.2rem 0 1.6rem; font-size:.74rem; text-align:center}
+footer.f-min .credits a{color:var(--acc-soft); text-decoration:underline; text-underline-offset:3px}
 .credits{margin:3rem 0 0; padding:1.6rem 0 2.6rem; border-top:1px solid var(--line); color:var(--mute); font-size:.8rem; line-height:1.7}
 .credits li{margin:.3rem 0; list-style:none}
 .credits ul{margin:.6rem 0 0; padding:0}
 .credits a{color:var(--acc-soft); text-decoration:underline; text-underline-offset:3px}
 /* ---- rolar além do fim → próxima página (mantém a transição) ---- */
+/* ---- deixa intuitiva de que dá para rolar para a próxima página ---- */
 .next-page{
-  display:flex; flex-direction:column; align-items:center; gap:.9rem;
-  padding:3.2rem 1.5rem 3.6rem; border-top:1px solid var(--line);
+  display:flex; flex-direction:column; align-items:center; gap:1.2rem;
+  padding:clamp(4.6rem,17vh,8.5rem) 1.5rem; border-top:1px solid var(--line);
   text-align:center; position:relative; overflow:clip; width:100%;
 }
 .next-page::before{
@@ -528,28 +540,54 @@ footer{border-top:1px solid var(--line); background:var(--bg2); position:relativ
 }
 .next-page:hover::before{opacity:1}
 .next-page small{
-  position:relative; z-index:1; font-size:.66rem; letter-spacing:.3em; text-transform:uppercase;
+  position:relative; z-index:1; display:inline-flex; align-items:center; gap:.85em;
+  font-size:.66rem; letter-spacing:.3em; text-transform:uppercase;
   color:var(--mute); transition:color .3s;
 }
-.next-page .np-t{
-  position:relative; z-index:1; display:inline-flex; align-items:center; gap:.5em;
-  font-family:var(--display); font-weight:660; font-stretch:93%;
-  text-transform:uppercase; line-height:.9; letter-spacing:-.02em;
-  font-size:clamp(2rem,5vw,3.4rem); color:var(--ink);
-  transition:color .3s var(--ease);
+.np-dot{width:7px; height:7px; border-radius:50%; background:var(--acc); flex:none;
+  box-shadow:0 0 12px rgba(117,170,219,.8); animation:npPulse 2.2s ease-in-out infinite}
+@keyframes npPulse{0%,100%{opacity:.3; transform:scale(.72)}50%{opacity:1; transform:scale(1.12)}}
+.next-page .dn{
+  position:relative; z-index:1; font-style:normal; line-height:1;
+  font-size:1.45rem; color:var(--acc); transform:translateY(.08em);
+  transition:transform .45s var(--ease);
+  animation:npBounceY 2.1s var(--ease) infinite;
 }
-.next-page .np-t i{
-  font-style:normal; font-size:.62em; transform:translateY(.1em);
-  transition:transform .45s var(--ease); color:var(--acc);
-}
-.next-page:hover .np-t i{transform:translate(.35em,.1em)}
+@keyframes npBounceY{0%,100%{transform:translateY(.08em)}55%{transform:translateY(.5em)}}
+.next-page:hover .dn{animation:none; transform:translateY(.5em)}
+@media (prefers-reduced-motion:reduce){ .next-page .dn,.np-dot{animation:none} }
 .next-page:hover small{color:var(--acc)}
+/* índice de páginas — existe apenas na última página (jogo) */
+.f-index{display:flex; flex-direction:column; margin-top:2.8rem; border-top:1px solid var(--line)}
+.f-index a{
+  position:relative; overflow:clip; display:flex; align-items:baseline; gap:1.3rem;
+  padding:1.05rem .25rem; border-bottom:1px solid var(--line); text-decoration:none;
+}
+.f-index a::before{
+  content:""; position:absolute; inset:0; transform:translateX(-101%);
+  background:linear-gradient(90deg, rgba(117,170,219,.13), transparent 62%);
+  transition:transform .55s var(--ease);
+}
+.f-index a:hover::before{transform:translateX(0)}
+.f-index a small{font-size:.68rem; letter-spacing:.24em; color:var(--gold); text-transform:uppercase}
+.f-index a b{
+  font-family:var(--display); font-weight:660; font-stretch:93%; text-transform:uppercase;
+  letter-spacing:-.01em; font-size:clamp(1.2rem,3vw,1.85rem); color:var(--ink);
+  transition:transform .5s var(--ease), color .3s;
+}
+.f-index a i{margin-left:auto; font-style:normal; color:var(--mute); transition:transform .5s var(--ease), color .3s}
+.f-index a:hover b{transform:translateX(10px); color:var(--acc)}
+.f-index a:hover i{transform:translateX(6px); color:var(--acc)}
 .f-word{
   display:block; text-align:center; font-family:var(--display); font-weight:660; font-stretch:93%; text-transform:uppercase;
   font-size:clamp(4rem,14.5vw,15rem); line-height:.78; letter-spacing:-.02em; padding-top:2rem;
   color:transparent; -webkit-text-stroke:1px var(--line2); user-select:none;
 }
-.f-word b{color:var(--ink); -webkit-text-stroke:0}
+.f-word b{
+  -webkit-text-stroke:0;
+  background:linear-gradient(105deg,#F1DFA6 10%,#E8CF8B 38%,#C9A24B 62%,#B88F3A 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
 .f-word .star{color:var(--gold); -webkit-text-stroke:0; font-size:.5em; vertical-align:.55em}
 .up{
   display:inline-flex; align-items:center; gap:.7em; margin-top:1.6rem;
@@ -573,28 +611,83 @@ footer{border-top:1px solid var(--line); background:var(--bg2); position:relativ
 .transition-w.live{visibility:visible; pointer-events:auto}
 .transition-rive{position:absolute; inset:0}
 .transition-rive canvas{width:100%; height:100%; display:block; filter:hue-rotate(133deg) saturate(.55) brightness(.85)}
+/* tinta por variante: recolore a arte para a paleta sem depender do hue original */
+.transition-rive::after{content:""; position:absolute; inset:0; pointer-events:none;
+  mix-blend-mode:color; opacity:0; transition:opacity .45s var(--ease)}
 .tr-curtain{position:absolute; inset:0}
+/* v1 · base — VARREDURA DUPLA: duas ondas cheias varrem da esquerda
+   (o painel de trás segue o da frente com atraso = efeito cascata) */
 .tr-curtain i{
-  position:absolute; left:0; width:100%; height:50.5%; background:var(--bg2);
-  transform:translateY(var(--tf)); transition:transform .9s var(--ease);
+  position:absolute; left:0; top:0; width:100%; height:100%; background:#0D1424;
+  transform:translateX(-102%); transition:transform .62s var(--ease);
 }
-.tr-curtain i:nth-child(1){--tf:-101%; top:0; border-bottom:1px solid rgba(117,170,219,.35)}
-.tr-curtain i:nth-child(2){--tf:101%; bottom:0; transition-delay:.07s; border-top:1px solid rgba(117,170,219,.35)}
-/* marca central — equivalente ao glifo do Load Norris do Lando */
+.tr-curtain i:nth-child(2){
+  background:linear-gradient(100deg,#0B1220,#07090F 62%);
+  border-left:1px solid rgba(117,170,219,.5);
+  box-shadow:-20px 0 48px rgba(117,170,219,.14);
+  transition-delay:.13s;
+}
+/* marca central — monograma M10: M em gelo + "10" serif itálico ouro */
 .tr-word{
-  position:absolute; left:50%; top:50%; translate:-50% -55%; z-index:2; pointer-events:none;
-  font-family:var(--display); font-weight:660; font-stretch:93%; text-transform:uppercase;
-  font-size:clamp(4.5rem,15vw,11.5rem); letter-spacing:-.02em; color:#0B1420;
-  opacity:0; transform:scale(.9); transition:opacity .3s var(--ease), transform .8s var(--ease);
+  position:absolute; left:50%; top:50%; translate:-50% -52%; z-index:2; pointer-events:none;
+  display:flex; flex-direction:column; align-items:center; gap:clamp(.85rem,2.4vh,1.35rem);
+  opacity:0; transform:scale(.94);
+  transition:opacity .3s var(--ease), transform .8s var(--ease);
 }
 .transition-w.on .tr-word{opacity:1; transform:scale(1)}
-.transition-w.reveal .tr-word{opacity:0; transform:scale(1.08); transition-delay:.05s}
-.transition-w.live.cover .tr-curtain i{transform:translateY(0)}
-.transition-w.live.reveal .tr-curtain i{transform:translateY(var(--tf)); transition-delay:.1s}
-.transition-btn{position:relative; z-index:3; margin-bottom:7vh; opacity:1; transition:opacity .3s}
-.transition-btn .btn-w{border-color:rgba(11,20,32,.55); color:#0B1420}
-.transition-btn .btn-w:hover{background:#0B1420; border-color:#0B1420; color:#A9CDEE}
-.transition-btn .hint{display:block; text-align:center; margin-top:1rem; font-size:.68rem; letter-spacing:.24em; text-transform:uppercase; color:rgba(11,20,32,.72)}
+.transition-w.reveal .tr-word{opacity:0; transform:scale(1.07); transition-delay:.05s}
+.transition-w.live.cover .tr-curtain i{transform:translateX(0)}
+.transition-w.live.reveal .tr-curtain i{transform:translateX(-102%)}
+.transition-w.live.reveal .tr-curtain i:nth-child(2){transition-delay:.13s}
+/* micro-caps entre fios de luz */
+.tw-eyebrow{
+  display:inline-flex; align-items:center; gap:1.1em; white-space:nowrap;
+  font-family:var(--body); font-weight:600; text-transform:uppercase;
+  font-size:clamp(.58rem,1.2vw,.7rem); letter-spacing:.5em; text-indent:.1em;
+  color:rgba(169,205,238,.72);
+}
+.tw-eyebrow i{width:clamp(24px,6vw,56px); height:1px; display:block;
+  background:linear-gradient(90deg,transparent,rgba(117,170,219,.7))}
+.tw-eyebrow i:last-child{transform:scaleX(-1)}
+/* o monograma */
+.tw-m10{
+  display:inline-flex; align-items:baseline; line-height:.8; letter-spacing:-.045em;
+  font-family:var(--display); font-weight:660; font-stretch:93%;
+  font-size:clamp(4.6rem,17vw,12.5rem); color:transparent;
+  background:linear-gradient(180deg,#FFFFFF 4%,#F4F7FB 30%,#A9CDEE 66%,#6FA3D4 98%);
+  -webkit-background-clip:text; background-clip:text;
+  filter:drop-shadow(0 3px 0 rgba(9,14,24,.5)) drop-shadow(0 18px 60px rgba(117,170,219,.3));
+}
+.tw-m10 .tw-ten{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:.92em; letter-spacing:-.01em; margin-left:.015em; transform:translateY(.02em);
+  background:linear-gradient(110deg,#F4E7BC 4%,#E8CF8B 30%,#C9A24B 54%,#F1DFA6 76%,#B88F3A 98%);
+  background-size:230% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+/* o ouro respira na intro (varredura de brilho) */
+.transition-w.no-rive.introing .tw-m10 .tw-ten{animation:goldSweep 4.6s ease-in-out 1.2s infinite}
+@keyframes goldSweep{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+/* destino anunciado sob o monograma (M10 → carreira…) */
+.tr-dest{
+  display:block; font-family:var(--body); font-weight:600; text-transform:uppercase;
+  font-size:clamp(.6rem,1.3vw,.74rem); letter-spacing:.5em; text-indent:.5em;
+  color:var(--acc-soft); opacity:0; transition:opacity .45s var(--ease) .12s;
+}
+.transition-w.cover .tr-dest:not(:empty){opacity:.92}
+.transition-w.reveal .tr-dest{opacity:0}
+/* preloader da intro: barra fina + contagem (entra sozinho, clique pula) */
+.tr-load{
+  position:absolute; left:50%; top:64%; translate:-50%; z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:15px; pointer-events:none;
+}
+.tr-load .tl-bar{width:min(300px,58vw); height:1px; display:block; overflow:hidden; background:rgba(11,20,32,.16)}
+.tr-load .tl-bar i{display:block; width:100%; height:100%; transform:scaleX(0); transform-origin:left;
+  background:linear-gradient(90deg,#0B1420,#3D6E9E)}
+.tr-load .tl-pct{
+  font-family:var(--display); font-weight:660; font-size:.95rem;
+  letter-spacing:.4em; text-indent:.4em; font-variant-numeric:tabular-nums; color:#0B1420;
+}
 /* ---- estado SEM Rive (file://, WebGL off, assets ausentes):
        intro própria, sempre legível — nada de tela preta ---- */
 .transition-w.no-rive{
@@ -607,28 +700,197 @@ footer{border-top:1px solid var(--line); background:var(--bg2); position:relativ
   background:radial-gradient(closest-side, rgba(117,170,219,.22), rgba(117,170,219,.06) 55%, transparent 74%);
   animation:glowPulse 4.5s ease-in-out infinite;
 }
-.transition-w.no-rive .tr-word{
-  background:linear-gradient(180deg,#F4F7FB 12%,#A9CDEE 58%,#75AADB 100%);
+/* animação de entrada da marca apenas durante a intro (fill-both não congela
+   as transições das trocas de página seguintes) */
+.transition-w.no-rive.introing .tr-word{animation:wordIn 1.1s var(--ease) both .15s}
+.transition-w.no-rive .tr-load .tl-bar{background:rgba(169,205,238,.22)}
+.transition-w.no-rive .tr-load .tl-bar i{background:linear-gradient(90deg,#75AADB,#ECD9A4)}
+.transition-w.no-rive .tr-load .tl-pct{
+  background:linear-gradient(180deg,#F4F7FB,#75AADB);
   -webkit-background-clip:text; background-clip:text; color:transparent;
-  animation:wordIn 1.1s var(--ease) both .15s;
 }
-.transition-w.no-rive .transition-btn .btn-w{
-  background:#75AADB; border-color:#75AADB; color:#0B1420; font-weight:700;
-  box-shadow:0 12px 44px rgba(117,170,219,.35);
-  animation:btnIn .9s var(--ease) both .45s;
-}
-.transition-w.no-rive .transition-btn .btn-w:hover{background:#A9CDEE; border-color:#A9CDEE; color:#0B1420}
-.transition-w.no-rive .transition-btn .hint{color:rgba(233,240,247,.78)}
 @keyframes glowPulse{0%,100%{opacity:.65; transform:scale(1)}50%{opacity:1; transform:scale(1.07)}}
 @keyframes wordIn{from{opacity:0; transform:scale(.92) translateY(14px)}to{opacity:1; transform:scale(1) translateY(0)}}
-@keyframes btnIn{from{opacity:0; transform:translateY(16px)}to{opacity:1; transform:translateY(0)}}
 @media (prefers-reduced-motion: reduce){
-  .transition-w.no-rive::before,.transition-w.no-rive .tr-word,.transition-w.no-rive .transition-btn .btn-w{animation:none}
+  .transition-w.no-rive::before,.transition-w.no-rive.introing .tr-word{animation:none}
+  .transition-w.no-rive.introing .tw-m10 .tw-ten{animation:none}
+  html[data-variant="v2"] .transition-w.cover::after{animation:none}
+  .tr-load{display:none}
 }
-/* estado inicial no carregamento com bandeira de trânsito: cobrir sem flash */
+/* estado inicial no carregamento com bandeira de trânsito: cobrir sem flash
+   (cada variante chega já no estado final do seu cover, sem animação) */
 html.transit .transition-w{display:flex; visibility:visible; pointer-events:auto}
-html.transit .transition-w .tr-curtain i{transform:translateY(0); transition:none}
-html.transit .transition-btn{display:none}
+html.transit .transition-w .tr-curtain i{transform:translateX(0); transition:none}
+html.transit .transition-w.cover:not(.introing) .tr-curtain::before{opacity:1; transform:translateX(0) skewX(-6deg); transition:none}
+html.transit[data-variant="v2"] .transition-w .tr-curtain i{transform:translateY(0)}
+html.transit[data-variant="v2"] .transition-w::after{animation:none; opacity:0}
+html.transit[data-variant="v3"] .transition-w .tr-curtain i:nth-child(1){transform:scaleY(1)}
+html.transit[data-variant="v3"] .transition-w .tr-curtain::after{transform:translateY(100vh); transform:translateY(100lvh); opacity:1; transition:none}
+html.transit[data-variant="v4"] .transition-w .tr-curtain,
+html.transit[data-variant="v4"] .transition-w .transition-rive{clip-path:circle(74% at 50% 50%); transition:none}
+html.transit[data-variant="v4"] .transition-w .tr-curtain::after{transform:scale(.6); opacity:1}
+html.transit[data-variant="v5"] .transition-w .tr-curtain i{transform:translateY(0)}
+html.transit[data-variant="v5"] .transition-w::before{opacity:1}
+
+/* ============================================================
+   VARIANTES DE TRANSIÇÃO — cada destino tem a SUA mecânica
+   v1 varredura dupla (→ carreira) · duas ondas cheias L→R em cascata
+   v2 flash de câmera (→ momentos) · obturador rápido + clarão dourado
+   v3 scan de placar  (→ números)  · linha-celeste varre e preenche
+   v4 íris-bola       (→ jogo)     · abertura circular com aro de ouro
+   v5 cortina de palco(→ início)   · pregas caindo + facho de refletor
+   Cada variante carrega o NUMERAL-FANTASMA do destino, tinge a arte
+   do Rive à sua maneira e anima o monograma de forma própria.
+   ============================================================ */
+/* ---- numeral-fantasma: o número da página que chega, vazado ---- */
+.tr-curtain::before{
+  content:"02"; position:absolute; right:-1vw; top:50%; translate:0 -50%; z-index:1;
+  font-family:var(--display); font-weight:800; font-stretch:115%; line-height:1;
+  font-size:clamp(17rem,56vh,34rem); letter-spacing:-.05em; white-space:nowrap;
+  color:transparent; -webkit-text-stroke:1.5px rgba(117,170,219,.3);
+  opacity:0; transform:translateX(7vw) skewX(-6deg); pointer-events:none;
+  transition:opacity .75s var(--ease) .08s, transform 1s var(--ease);
+}
+.transition-w.cover:not(.introing) .tr-curtain::before{opacity:1; transform:translateX(0) skewX(-6deg)}
+html[data-variant="v2"] .tr-curtain::before{content:"03"; -webkit-text-stroke-color:rgba(201,162,75,.38)}
+html[data-variant="v3"] .tr-curtain::before{content:"04"; right:auto; left:1vw; -webkit-text-stroke-color:rgba(169,205,238,.32)}
+html[data-variant="v4"] .tr-curtain::before{content:"05"; -webkit-text-stroke-color:rgba(117,170,219,.38)}
+html[data-variant="v5"] .tr-curtain::before{content:"01"; -webkit-text-stroke-color:rgba(201,162,75,.34)}
+
+/* ---- v1 · VARREDURA DUPLA → carreira (mecânica base) ---- */
+html[data-variant="v1"] .transition-rive::after{background:#75AADB; opacity:.5}
+html[data-variant="v1"] .transition-rive canvas{filter:hue-rotate(133deg) saturate(.55) brightness(.85)}
+/* o monograma é revelado por uma fenda que abre da esquerda */
+html[data-variant="v1"] .transition-w.cover:not(.introing) .tr-word{animation:wordWipeV1 .85s var(--ease) both .16s}
+@keyframes wordWipeV1{from{clip-path:inset(-12% 102% -12% -2%)}to{clip-path:inset(-12% -2% -12% -2%)}}
+
+/* ---- v2 · FLASH DE CÂMERA → momentos ---- */
+html[data-variant="v2"] .tr-curtain i{
+  width:100%; height:50.5%; top:auto;
+  transform:translateY(var(--tf)); transition:transform .5s var(--ease2);
+}
+html[data-variant="v2"] .tr-curtain i:nth-child(1){
+  --tf:-101%; top:0; bottom:auto;
+  background:linear-gradient(180deg,#15100A,#0B0806);
+  border:0; border-bottom:1px solid rgba(201,162,75,.55); transition-delay:0s;
+}
+html[data-variant="v2"] .tr-curtain i:nth-child(2){
+  --tf:101%; top:auto; bottom:0;
+  background:linear-gradient(0deg,#15100A,#0B0806);
+  border:0; border-top:1px solid rgba(201,162,75,.55); transition-delay:.05s;
+}
+html[data-variant="v2"] .transition-w.live.cover .tr-curtain i{transform:translateY(0)}
+html[data-variant="v2"] .transition-w.live.reveal .tr-curtain i{transform:translateY(var(--tf))}
+html[data-variant="v2"] .transition-w.live.reveal .tr-curtain i:nth-child(1){transition-delay:.06s}
+html[data-variant="v2"] .transition-w.live.reveal .tr-curtain i:nth-child(2){transition-delay:0s}
+/* o clarão no fechamento do obturador */
+html[data-variant="v2"] .transition-w::after{
+  content:""; position:absolute; inset:0; z-index:3; pointer-events:none; opacity:0;
+  background:radial-gradient(85% 85% at 50% 46%, rgba(244,231,188,.95), rgba(201,162,75,.35) 58%, transparent 78%);
+}
+html[data-variant="v2"] .transition-w.cover::after{animation:flashV2 .6s var(--ease2) .28s 1}
+@keyframes flashV2{0%{opacity:0}28%{opacity:.92}100%{opacity:0}}
+html[data-variant="v2"] .transition-rive::after{background:#C9A24B; opacity:.92}
+html[data-variant="v2"] .transition-rive canvas{filter:hue-rotate(133deg) saturate(.55) brightness(.6); transform:scaleX(-1)}
+/* foco de lente: zoom + desfoque que estacam nítidos */
+html[data-variant="v2"] .transition-w.cover:not(.introing) .tr-word{animation:wordFocusV2 .55s var(--ease2) both .12s}
+@keyframes wordFocusV2{from{opacity:1; transform:scale(1.22); filter:blur(12px)}to{opacity:1; transform:scale(1); filter:blur(0)}}
+
+/* ---- v3 · SCAN DE PLACAR → números ---- */
+html[data-variant="v3"] .tr-curtain i:nth-child(1){
+  width:100%; height:100%; top:0; border:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(117,170,219,.045) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(90deg, rgba(117,170,219,.045) 0 1px, transparent 1px 56px),
+    linear-gradient(180deg,#0D1424,#07090F);
+  transform:scaleY(0); transform-origin:50% 0;
+  transition:transform .72s var(--ease);
+}
+html[data-variant="v3"] .tr-curtain i:nth-child(2){display:none}
+html[data-variant="v3"] .transition-w.live.cover .tr-curtain i:nth-child(1){transform:scaleY(1)}
+html[data-variant="v3"] .transition-w.live.reveal .tr-curtain i:nth-child(1){transform:scaleY(0)}
+/* a linha do scan acompanha a borda do painel (mesma duração/easing) */
+html[data-variant="v3"] .tr-curtain::after{
+  content:""; position:absolute; left:0; top:-1px; width:100%; height:2px; z-index:1;
+  background:linear-gradient(90deg,transparent,#A9CDEE 16%,#F4F7FB 50%,#A9CDEE 84%,transparent);
+  box-shadow:0 0 22px rgba(117,170,219,.8), 0 0 64px rgba(117,170,219,.35);
+  opacity:0; transform:translateY(0); pointer-events:none;
+  transition:transform .72s var(--ease), opacity .3s linear;
+}
+html[data-variant="v3"] .transition-w.on .tr-curtain::after{opacity:1}
+html[data-variant="v3"] .transition-w.live.cover .tr-curtain::after{transform:translateY(100vh); transform:translateY(100lvh)}
+html[data-variant="v3"] .transition-rive::after{background:#9FB6D4; opacity:.55}
+html[data-variant="v3"] .transition-rive canvas{filter:hue-rotate(133deg) saturate(.4) brightness(.78); transform:rotate(180deg)}
+/* o monograma desce como uma linha de placar */
+html[data-variant="v3"] .transition-w.cover:not(.introing) .tr-word{animation:wordRowV3 .7s var(--ease) both .15s}
+@keyframes wordRowV3{from{opacity:1; transform:translateY(-.45em)}to{opacity:1; transform:translateY(0)}}
+/* ---- v4 · ÍRIS-BOLA → jogo (o clip-path vale para a arte do Rive também,
+       pois o canvas fica acima das cortinas; o fundo do wrapper fica
+       transparente para a página aparecer fora do círculo) ---- */
+html[data-variant="v4"] .transition-w{background:transparent}
+html[data-variant="v4"] .tr-curtain,
+html[data-variant="v4"] .transition-rive{clip-path:circle(0% at 50% 50%); transition:clip-path .85s var(--ease2)}
+html[data-variant="v4"] .transition-w.live.cover .tr-curtain,
+html[data-variant="v4"] .transition-w.live.cover .transition-rive{clip-path:circle(74% at 50% 50%)}
+html[data-variant="v4"] .transition-w.live.reveal .tr-curtain,
+html[data-variant="v4"] .transition-w.live.reveal .transition-rive{clip-path:circle(0% at 50% 50%); transition-delay:.06s}
+html[data-variant="v4"] .tr-curtain i{transform:none; transition:none; border:0}
+html[data-variant="v4"] .tr-curtain i:nth-child(2){background:#0D1424}
+/* aro dourado expandindo junto à íris — a "bola" */
+html[data-variant="v4"] .tr-curtain::after{
+  content:""; position:absolute; left:50%; top:50%; translate:-50% -50%;
+  width:132vmax; height:132vmax; border-radius:50%; pointer-events:none;
+  border:1px solid rgba(201,162,75,.65);
+  box-shadow:0 0 70px rgba(117,170,219,.28), inset 0 0 70px rgba(117,170,219,.2);
+  transform:scale(.04); opacity:0;
+  transition:transform .85s var(--ease2), opacity .45s linear;
+}
+html[data-variant="v4"] .transition-w.cover .tr-curtain::after{transform:scale(.6); opacity:1}
+html[data-variant="v4"] .transition-rive::after{background:#75AADB; opacity:.4}
+html[data-variant="v4"] .transition-rive canvas{filter:hue-rotate(133deg) saturate(.6) brightness(.78); transform:scale(1.12)}
+/* o monograma cresce de dentro da bola */
+html[data-variant="v4"] .transition-w.cover:not(.introing) .tr-word{animation:wordIrisV4 .8s var(--ease2) both .1s}
+@keyframes wordIrisV4{from{opacity:1; transform:scale(.62)}to{opacity:1; transform:scale(1)}}
+
+/* ---- v5 · CORTINA DE PALCO → início ---- */
+html[data-variant="v5"] .tr-curtain i{
+  width:100%; height:108%; top:-4%; left:0;
+  transform:translateY(-104%); transition:transform .78s var(--ease);
+}
+html[data-variant="v5"] .tr-curtain i:nth-child(1){
+  background:
+    repeating-linear-gradient(90deg, rgba(242,244,248,.05) 0 2px, transparent 2px 46px),
+    linear-gradient(180deg,#0A0F1A,#07090F);
+  border:0; border-bottom:1px solid rgba(201,162,75,.6);
+  box-shadow:0 16px 44px rgba(201,162,75,.16);
+  transition-delay:0s;
+}
+html[data-variant="v5"] .tr-curtain i:nth-child(2){
+  top:-9%; height:113%;
+  background:
+    repeating-linear-gradient(90deg, rgba(117,170,219,.07) 0 2px, transparent 2px 34px),
+    linear-gradient(180deg,#0B1424,#080B12);
+  border:0; border-bottom:1px solid rgba(117,170,219,.55);
+  transition-delay:.1s;
+}
+html[data-variant="v5"] .transition-w.live.cover .tr-curtain i{transform:translateY(0)}
+html[data-variant="v5"] .transition-w.live.reveal .tr-curtain i{transform:translateY(-104%)}
+html[data-variant="v5"] .transition-w.live.reveal .tr-curtain i:nth-child(1){transition-delay:0s}
+html[data-variant="v5"] .transition-w.live.reveal .tr-curtain i:nth-child(2){transition-delay:.1s}
+/* facho de refletor atrás do monograma */
+html[data-variant="v5"] .transition-w::before{
+  content:""; position:absolute; left:50%; top:-10%; translate:-50%; z-index:1;
+  width:min(78vmin,860px); height:125%; pointer-events:none; opacity:0;
+  background:linear-gradient(180deg, rgba(236,217,164,.15), rgba(236,217,164,.05) 40%, transparent 72%);
+  clip-path:polygon(43% 0, 57% 0, 100% 100%, 0 100%);
+  transition:opacity .8s var(--ease) .12s;
+}
+html[data-variant="v5"] .transition-w.cover:not(.introing)::before{opacity:1}
+html[data-variant="v5"] .transition-rive::after{background:#8A6A26; opacity:.3}
+html[data-variant="v5"] .transition-rive canvas{filter:hue-rotate(133deg) saturate(.4) brightness(.32); transform:scaleY(-1)}
+/* o monograma desce com o pano e assenta */
+html[data-variant="v5"] .transition-w.cover:not(.introing) .tr-word{animation:wordFallV5 .8s var(--ease2) both .2s}
+@keyframes wordFallV5{from{opacity:1; transform:translateY(-.4em) scale(.94)}to{opacity:1; transform:translateY(0) scale(1)}}
 
 /* rotas da versão de arquivo único (multi-página num HTML só) */
 .route{display:none}
@@ -671,9 +933,11 @@ html.js [data-reveal].in{opacity:1; transform:none; filter:none; clip-path:inset
   body{font-size:1rem}
   .hero-bg::after{
     background:
-      linear-gradient(180deg, color-mix(in srgb,var(--bg) 55%, transparent) 0%, transparent 26%),
-      linear-gradient(0deg, var(--bg) 4%, color-mix(in srgb,var(--bg) 82%, transparent) 30%, transparent 62%);
+      linear-gradient(180deg, color-mix(in srgb,var(--bg) 58%, transparent) 0%, transparent 28%),
+      linear-gradient(0deg, var(--bg) 12%, color-mix(in srgb,var(--bg) 90%, transparent) 40%, transparent 74%);
   }
+  .hero .lede{text-shadow:0 1px 18px rgba(7,9,15,.6)}
+  .hero-meta span{text-shadow:0 1px 14px rgba(7,9,15,.7)}
   .sec-h{flex-direction:column; align-items:flex-start; gap:.9rem}
   .mo-grid{grid-template-columns:1fr}
   .mo.wide{grid-column:span 1}

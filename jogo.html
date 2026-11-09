@@ -12,7 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wdth,wght@0,75..125,200..800;1,75..125,200..800&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <script>document.documentElement.classList.add("js");
-try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classList.add("transit")}catch(e){}</script>
+try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classList.add("transit")}catch(e){}
+try{var mv=sessionStorage.getItem("m-variant");if(mv)document.documentElement.dataset.variant=mv}catch(e){}</script>
 </head>
 <body>
 
@@ -59,20 +60,6 @@ try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classL
     </div>
   </section>
 
-  <section class="wrap" aria-label="Próxima página" style="padding-block:clamp(4rem,10vh,8rem)">
-    <p class="eyebrow" data-reveal>continue</p>
-    <div class="rows" data-reveal style="--d:.1s">
-      <a class="row-l" href="index.html">
-        <span class="tt"><small>01</small><h3>Início</h3></span>
-        <span class="arw">→</span>
-      </a>
-      <a class="row-l" href="momentos.html">
-        <span class="tt"><small>03</small><h3>Momentos</h3></span>
-        <span class="arw">→</span>
-      </a>
-    </div>
-  </section>
-
 </main>
 
 <footer>
@@ -80,13 +67,6 @@ try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classL
     <div>
       <p class="eyebrow" data-reveal>obrigado pela visita</p>
       <h2 class="display" data-reveal="line">De Rosário <span class="serif-i">a Miami.</span></h2>
-      <ul class="f-nav">
-        <li><a href="index.html">início</a></li>
-        <li><a href="carreira.html">carreira</a></li>
-        <li><a href="momentos.html">momentos</a></li>
-        <li><a href="records.html">números</a></li>
-        <li><a href="jogo.html">jogo</a></li>
-      </ul>
     </div>
     <div class="f-cta" data-reveal>
       <a class="btn-w" href="momentos.html">ver a galeria <span class="arw">→</span></a>
@@ -94,6 +74,12 @@ try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classL
       <a class="up" href="#top">voltar ao topo <i>↑</i></a>
     </div>
   </div>
+  <nav class="f-index wrap" aria-label="Páginas do site">
+    <a href="index.html"><small>01</small><b>Início</b><i>→</i></a>
+    <a href="carreira.html"><small>02</small><b>Carreira</b><i>→</i></a>
+    <a href="momentos.html"><small>03</small><b>Momentos</b><i>→</i></a>
+    <a href="records.html"><small>04</small><b>Números</b><i>→</i></a>
+  </nav>
   <div class="f-word" aria-hidden="true">Messi <span class="star">✦</span> <b>M10</b></div>
   <ul class="credits wrap">
     <li>Projeto de fã, não oficial, sem vínculo com Lionel Messi, Inter Miami, FC Barcelona ou AFA. Todo o texto é original.</li>
@@ -101,19 +87,19 @@ try{if(sessionStorage.getItem("m-transit")==="1")document.documentElement.classL
     <li>Direção de arte e transições inspiradas no site de Lando Norris (OFF+BRAND); implementação própria, com Rive e Lenis (MIT).</li>
   </ul>
 
-  <a class="next-page" href="index.html">
-    <small>voltar ao começo</small>
-    <span class="np-t">Início <i>↓</i></span>
+  <a class="next-page" href="index.html" aria-label="fim — voltar ao começo">
+    <small><i class="np-dot" aria-hidden="true"></i>fim — voltar ao começo</small>
+    <i class="dn" aria-hidden="true">↓</i>
   </a>
 </footer>
 
 <div class="transition-w" aria-hidden="true">
   <div class="tr-curtain"><i></i><i></i></div>
   <div class="transition-rive"><canvas data-rive-primary></canvas></div>
-  <div class="tr-word" aria-hidden="true">M10</div>
-  <div class="transition-btn">
-    <button class="btn-w gold" type="button">entrar <span class="arw">↓</span></button>
-    <span class="hint">messi ✦ m10 — clique em qualquer lugar para entrar</span>
+  <div class="tr-word" aria-hidden="true">
+    <span class="tw-eyebrow"><i></i>Lionel Messi<i></i></span>
+    <b class="tw-m10">M<span class="tw-ten">10</span></b>
+    <small class="tr-dest"></small>
   </div>
 </div>
 
